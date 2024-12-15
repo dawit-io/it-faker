@@ -26,7 +26,7 @@ export class FiscalCodeModule {
     }
 
     generate(options?: FiscalCodeOptions): string {
-        let birthCity = this.placesModule.randomCity();
+        const birthCity = this.placesModule.randomCity();
         const firstName = options?.firstName ?? this.namesModule.firstName();
         const lastName = options?.lastName ?? this.lastNameModule.lastName();
         const gender = options?.gender ?? this.faker.helpers.arrayElement([Gender.Male, Gender.Female]);

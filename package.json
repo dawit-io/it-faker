@@ -1,25 +1,25 @@
 {
 	"name": "@italia-tools/faker",
-	"version": "0.0.1-alpha.1",
+	"version": "0.0.1-alpha.2",
 	"description": "Italian-specific fake data generator based on Faker.js",
 	"type": "module",
 	"scripts": {
 		"test": "vitest",
-		"build": "tsc",
+		"build": "rollup -c",
 		"docs": "typedoc --out docs src/lib",
 		"docs:dev": "vitepress dev docs",
 		"docs:build": "vitepress build docs",
 		"docs:preview": "vitepress preview docs"
 	},
 	"files": ["dist"],
-	"main": "./dist/lib/index.js",
+	"main": "./dist/lib/index.cjs",
 	"module": "./dist/lib/index.mjs",
-	"types": "./dist/lib/index.d.ts",
+	"types": "./dist/lib/types/index.d.ts",
 	"exports": {
 		".": {
-			"types": "./dist/lib/index.d.ts",
-			"import": "./dist/lib/index.js",
-			"require": "./dist/lib/index.js"
+			"import": "./dist/lib/index.mjs",
+			"require": "./dist/lib/index.cjs",
+			"types": "./dist/lib/types/index.d.ts"
 		}
 	},
 	"keywords": ["faker", "faker-js", "italian", "fake-data", "testing"],
@@ -41,12 +41,18 @@
 		"@faker-js/faker": "^9.3.0"
 	},
 	"devDependencies": {
+		"@rollup/plugin-commonjs": "^28.0.2",
+		"@rollup/plugin-json": "^6.1.0",
+		"@rollup/plugin-node-resolve": "^16.0.0",
+		"@rollup/plugin-typescript": "^12.1.2",
 		"@tailwindcss/typography": "^0.5.15",
 		"@types/node": "^22.10.2",
 		"@vitejs/plugin-vue": "^5.2.1",
 		"autoprefixer": "^10.4.20",
 		"postcss": "^8.4.49",
+		"rollup": "^4.28.1",
 		"tailwindcss": "^3.4.16",
+		"tslib": "^2.8.1",
 		"typescript": "^5.7.2",
 		"vite": "^6.0.3",
 		"vitepress": "^1.5.0",
