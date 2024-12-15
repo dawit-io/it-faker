@@ -1,6 +1,6 @@
 {
 	"name": "@italia-tools/faker",
-	"version": "0.0.1-alpha.2",
+	"version": "0.0.1-alpha.3",
 	"description": "Italian-specific fake data generator based on Faker.js",
 	"type": "module",
 	"scripts": {

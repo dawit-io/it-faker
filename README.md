@@ -20,15 +20,17 @@ Generate authentic Italian fake data with real demographic distributions and for
 ## 🚀 Quick Start
 
 ```bash
-npm install @faker-it/core
+npm i @italia-tools/faker
 ```
 
 ## 💫 Create a Complete Italian Person
 
 ```javascript
-import { itFaker } from '@faker-it/core';
+import { ItFaker } from '@italia-tools/faker';
 
-const person = itFaker.person.generatePerson();
+const itFaker = new ItFaker();
+
+const person = itFaker.itPerson.generatePerson();
 
 console.log(person);
 // {
@@ -62,8 +64,8 @@ console.log(person);
 
 ```javascript
 // Generate with specific options
-const person = itFaker.person.generatePerson({
-  gender: 'F',
+const person = itFaker.itPerson.generatePerson({
+  gender: 'male',
   region: 'Lombardia',
   minAge: 25,
   maxAge: 35,
@@ -71,61 +73,43 @@ const person = itFaker.person.generatePerson({
 });
 
 // Just need a name?
-const name = itFaker.person.fullName({ gender: 'M' });  // "Prof. Giuseppe Bianchi"
+const name = itFaker.itPerson.fullName({ gender: 'male' });  // "Prof. Giuseppe Bianchi"
 
 // Professional email?
-const email = itFaker.person.email('Mario', 'Verdi');  // "mario.verdi@gmail.com"
+const email = itFaker.itPerson.email('Mario', 'Verdi');  // "mario.verdi@gmail.com"
 
 // Need a PEC address?
-const pec = itFaker.person.pec('Mario', 'Verdi');  // "mario.verdi@pec.it"
+const pec = itFaker.itPerson.pec('Mario', 'Verdi');  // "mario.verdi@pec.it"
 
 // Italian mobile number?
-const phone = itFaker.person.phone();  // "3281234567"
+const phone = itFaker.itPerson.phone();  // "3281234567"
 
 // Landline number?
-const landline = itFaker.person.landline();  // "021234567"
+const landline = itFaker.itPerson.landline();  // "021234567"
 ```
 
 ## 🏛 Geographic Data
 
 ```javascript
 // Get a random Italian city
-const birthPlace = itFaker.person.birthPlace();  // "Milano"
+const birthPlace = itFaker.itPerson.birthPlace();  // "Milano"
 
 // Get province info
-const province = itFaker.person.province();
+const province = itFaker.itPerson.province();
 // { name: "Milano", code: "MI" }
 ```
 
 ## 🛠 Advanced Options
 
 ```javascript
-const businessPerson = itFaker.person.generatePerson({
-  gender: 'F',
+const businessPerson = itFaker.itPerson.generatePerson({
+  gender: 'female',
   region: 'Lazio',
   province: 'RM',
   withTitle: true,  // Includes professional title
   minAge: 30,
   maxAge: 65
 });
-```
-
-## 📦 Individual Modules
-
-Each feature is also available as a standalone module:
-
-```javascript
-import { 
-  PersonModule,
-  PlacesModule,
-  FiscalCodeModule,
-  LastNameModule,
-  NamesModule 
-} from '@faker-it/core';
-
-// Use modules independently
-const namesModule = new NamesModule(faker);
-const firstName = namesModule.firstName({ prefix: true });  // "Dott. Giuseppe"
 ```
 
 ## 🎯 Use Cases
@@ -145,11 +129,11 @@ const firstName = namesModule.firstName({ prefix: true });  // "Dott. Giuseppe"
 
 ## 📖 Documentation
 
-Visit our [detailed documentation](https://faker-it.dev) for complete API reference.
+Visit our [detailed documentation](https://it-faker.gojodigital.com/) for complete API reference.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Check out our [Contributing Guide](CONTRIBUTING.md).
+Contributions are welcome!
 
 ## 📄 License
 
