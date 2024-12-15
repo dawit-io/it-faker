@@ -1,4 +1,3 @@
-import { ItalianCity } from "../city";
 
 export interface ItalianPersonContactsDto {
     phone: string;

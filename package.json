@@ -1,58 +1,54 @@
 {
-  "name": "it-faker",
-  "version": "0.0.1",
-  "description": "Italian-specific fake data generator based on Faker.js",
-  "type": "module",
-  "scripts": {
-    "test": "vitest",
-    "docs": "typedoc --out docs src/lib",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
-  },
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/it-faker.umd.js",
-  "module": "./dist/it-faker.es.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/it-faker.es.js",
-      "require": "./dist/it-faker.umd.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "keywords": [
-    "faker",
-    "faker-js",
-    "italian",
-    "fake-data",
-    "testing"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yourusername/it-faker.git"
-  },
-  "author": "Your Name",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/yourusername/it-faker/issues"
-  },
-  "homepage": "https://github.com/yourusername/it-faker#readme",
-  "dependencies": {
-    "@faker-js/faker": "^9.3.0"
-  },
-  "devDependencies": {
-    "@tailwindcss/typography": "^0.5.15",
-    "@types/node": "^22.10.2",
-    "@vitejs/plugin-vue": "^5.2.1",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.16",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.3",
-    "vitepress": "^1.5.0",
-    "vue": "^3.3.4"
-  }
+	"name": "@it-tools/faker",
+	"version": "0.0.1-alpha.0",
+	"description": "Italian-specific fake data generator based on Faker.js",
+	"type": "module",
+	"scripts": {
+		"test": "vitest",
+		"docs": "typedoc --out docs src/lib",
+		"docs:dev": "vitepress dev docs",
+		"docs:build": "vitepress build docs",
+		"docs:preview": "vitepress preview docs"
+	},
+	"files": ["dist"],
+	"main": "./dist/it-faker.umd.js",
+	"module": "./dist/it-faker.es.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/it-faker.es.js",
+			"require": "./dist/it-faker.umd.js",
+			"types": "./dist/index.d.ts"
+		}
+	},
+	"keywords": ["faker", "faker-js", "italian", "fake-data", "testing"],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/dawit-io/it-faker.git"
+	},
+	"author": {
+		"name": "Dawit Abate",
+		"email": "dawit@gojodigital.com",
+		"url": "https://gojodigital.com"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/dawit-io/it-faker/issues"
+	},
+	"homepage": "https://github.com/dawit-io/it-faker#readme",
+	"dependencies": {
+		"@faker-js/faker": "^9.3.0"
+	},
+	"devDependencies": {
+		"@tailwindcss/typography": "^0.5.15",
+		"@types/node": "^22.10.2",
+		"@vitejs/plugin-vue": "^5.2.1",
+		"autoprefixer": "^10.4.20",
+		"postcss": "^8.4.49",
+		"tailwindcss": "^3.4.16",
+		"typescript": "^5.7.2",
+		"vite": "^6.0.3",
+		"vitepress": "^1.5.0",
+		"vue": "^3.3.4"
+	}
 }

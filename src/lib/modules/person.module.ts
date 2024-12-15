@@ -5,7 +5,6 @@ import { Gender, PersonOptions } from "../types/types";
 import { PlacesModule } from "./places.module";
 import { FiscalCodeModule, FiscalCodeOptions } from "./fiscalCode.module";
 import { AddressModule } from "./addresses.module";
-import { ItalianPerson } from "../types/person";
 import { ItalianPersonDto } from "../types/dto/person.dto";
 
 export class PersonModule {
@@ -92,15 +91,15 @@ export class PersonModule {
 
     generatePerson(options?: PersonOptions): ItalianPersonDto {
         const gender = options?.gender || this.faker.helpers.arrayElement([Gender.Male, Gender.Female]);
-        let birthDate = this.faker.date.birthdate({ 
-            mode: 'age', 
+        let birthDate = this.faker.date.birthdate({
+            mode: 'age',
             min: options?.minAge || 18,
             max: options?.maxAge || 80
-          });
+        });
 
-        const birthCity = options?.province 
+        const birthCity = options?.province
             ? this.placesModule.city({ province: options.province })
-            : options?.region 
+            : options?.region
                 ? this.placesModule.city({ region: options.region })
                 : this.placesModule.randomCity();
 
@@ -111,7 +110,7 @@ export class PersonModule {
         });
 
         const prefix = options?.withTitle ? this.namesModule.prefix(gender) : '';
-        
+
         return {
             fullName: [prefix, firstName, lastName].filter(Boolean).join(' '),
             firstName,
@@ -140,7 +139,7 @@ export class PersonModule {
     }
 
     parseGender(value: string | undefined): Gender | undefined {
-        const isValidGender = value === Gender.Male || value === Gender.Female ;
+        const isValidGender = value === Gender.Male || value === Gender.Female;
         return isValidGender ? value : undefined;
     }
 }

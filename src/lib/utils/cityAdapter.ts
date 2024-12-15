@@ -72,8 +72,7 @@ export class CityAdapter {
      * Uses population as weight
      */
     static toWeightedItems(
-        cities: RawItalianCity[], 
-        options: CityAdapterOptions = {}
+        cities: RawItalianCity[],
     ): WeightedItem<RawItalianCity>[] {
         return cities.map(city => ({
             value: city,
@@ -103,7 +102,7 @@ export class CityAdapter {
         if (options.includeProvince) {
             parts.push(`(${city.sigla})`);
         }
-        
+
         if (options.includeCap) {
             parts.push(city.cap[0]);
         }

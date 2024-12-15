@@ -6,9 +6,8 @@ export class LastNameSelector {
     private readonly provinceMap: Map<string, RegionalLastName>;
     private readonly fallbackSurnames: string[];
     private readonly faker: Faker;
-    
-    private readonly REGIONAL_WEIGHT = 0.5; 
-    private readonly FALLBACK_WEIGHT = 0.5; 
+
+    private readonly REGIONAL_WEIGHT = 0.5;
     constructor(
         regionalData: RegionalLastName[],
         fallbackSurnames: string[],
@@ -18,7 +17,7 @@ export class LastNameSelector {
         this.fallbackSurnames = fallbackSurnames;
         this.regionMap = new Map();
         this.provinceMap = new Map();
-        
+
         regionalData.forEach(data => {
             if (!this.regionMap.has(data.region)) {
                 this.regionMap.set(data.region, []);
@@ -52,7 +51,7 @@ export class LastNameSelector {
         }
 
         const useLocal = this.faker.number.float({ min: 0, max: 1 }) < this.REGIONAL_WEIGHT;
-        
+
         if (useLocal) {
             return this.faker.helpers.arrayElement(localSurnames);
         } else {
