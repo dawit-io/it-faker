@@ -56,14 +56,14 @@ function generatePerson() {
     lastName,
     gender: gender
   });*/
-  return faker.itPerson.generatePerson({ gender: gender, withTitle: includeTitle.value, minAge: minAge.value, maxAge: maxAge.value, province: selectedProvince.value,  });
+  return faker.itPerson.generatePerson({ gender: gender, withTitle: includeTitle.value, minAge: minAge.value, maxAge: maxAge.value, province: provinceSearch.value,  });
 }
 
 const personData = ref(generatePerson())
 
 const provinces = [
   'Roma', 'Milano', 'Napoli', 'Torino', 'Palermo', 
-  'Genova', 'Bologna', 'Firenze', 'Bari', 'Catania'
+  'Genova', 'Bologna', 'Firenze', 'Bari', 'Catania', 'Bolzano'
 ].sort()
 
 const filteredProvinces = computed(() => {

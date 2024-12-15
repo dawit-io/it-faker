@@ -6,6 +6,9 @@ export class LastNameSelector {
     private readonly provinceMap: Map<string, RegionalLastName>;
     private readonly fallbackSurnames: string[];
     private readonly faker: Faker;
+    
+    private readonly REGIONAL_WEIGHT = 0.5; 
+    private readonly FALLBACK_WEIGHT = 0.5; 
     constructor(
         regionalData: RegionalLastName[],
         fallbackSurnames: string[],
@@ -16,15 +19,11 @@ export class LastNameSelector {
         this.regionMap = new Map();
         this.provinceMap = new Map();
         
-        // Index data by region and province
         regionalData.forEach(data => {
-            // Region indexing
             if (!this.regionMap.has(data.region)) {
                 this.regionMap.set(data.region, []);
             }
             this.regionMap.get(data.region)?.push(data);
-            
-            // Province indexing
             this.provinceMap.set(data.province.toLowerCase(), data);
         });
     }
@@ -34,23 +33,30 @@ export class LastNameSelector {
             return this.faker.helpers.arrayElement(this.fallbackSurnames);
         }
 
-        let surnames: string[] = [];
+        let localSurnames: string[] = [];
 
         if (options.province) {
             const provinceData = this.provinceMap.get(options.province.toLowerCase());
             if (provinceData) {
-                surnames = provinceData.surnames;
+                localSurnames = provinceData.surnames;
             }
         } else if (options.region) {
             const regionData = this.regionMap.get(options.region);
             if (regionData) {
-                surnames = regionData.flatMap(data => data.surnames);
+                localSurnames = regionData.flatMap(data => data.surnames);
             }
         }
 
-        return surnames.length > 0 
-            ? this.faker.helpers.arrayElement(surnames)
-            : this.faker.helpers.arrayElement(this.fallbackSurnames);
-    }
+        if (localSurnames.length === 0) {
+            return this.faker.helpers.arrayElement(this.fallbackSurnames);
+        }
 
+        const useLocal = this.faker.number.float({ min: 0, max: 1 }) < this.REGIONAL_WEIGHT;
+        
+        if (useLocal) {
+            return this.faker.helpers.arrayElement(localSurnames);
+        } else {
+            return this.faker.helpers.arrayElement(this.fallbackSurnames);
+        }
+    }
 }

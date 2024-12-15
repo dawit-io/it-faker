@@ -23,3 +23,11 @@ features:
     title: Indirizzi Corretti
     details: Formato italiano standard per vie, numeri civici e località
 ---
+
+<div class="custom-container">
+  <img 
+    src="/images/logo.png" 
+    alt="Logo" 
+    style="width: 200px; margin: 20px auto; display: block;"
+  >
+</div>
