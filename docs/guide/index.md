@@ -14,20 +14,20 @@ IT-Faker is a specialized data generation library built on top of Faker.js, spec
 
 ```bash
 # Using npm
-npm install @it-tools/faker
+npm install @italia-tools/faker
 
 # Using yarn
-yarn add @it-tools/faker
+yarn add @italia-tools/faker
 
 # Using pnpm
-pnpm add @it-tools/faker
+pnpm add @italia-tools/faker
 ```
 
 ## Basic Usage
 
 ### Importing the Library
 ```typescript
-import { itFaker } from '@it-tools/faker';
+import { itFaker } from '@italia-tools/faker';
 ```
 
 ### Generate Coherent Personal Data

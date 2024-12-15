@@ -10,17 +10,17 @@ You can install IT-Faker using your preferred package manager:
 
 ### npm
 ```bash
-npm install @it-tools/faker
+npm install @italia-tools/faker
 ```
 
 ### yarn
 ```bash
-yarn add @it-tools/faker
+yarn add @italia-tools/faker
 ```
 
 ### pnpm
 ```bash
-pnpm add @it-tools/faker
+pnpm add @italia-tools/faker
 ```
 
 ## TypeScript Configuration
@@ -40,19 +40,19 @@ IT-Faker includes TypeScript definitions out of the box. No additional types pac
 
 ### ES Modules (Recommended)
 ```typescript
-import { itFaker } from '@it-tools/faker';
+import { itFaker } from '@italia-tools/faker';
 ```
 
 ### CommonJS
 ```javascript
-const { itFaker } = require('@it-tools/faker');
+const { itFaker } = require('@italia-tools/faker');
 ```
 
 ## Verification
 To verify your installation, you can run this simple test:
 
 ```typescript
-import { itFaker } from '@it-tools/faker';
+import { itFaker } from '@italia-tools/faker';
 
 // Should generate an Italian name
 console.log(itFaker.names.firstName());
