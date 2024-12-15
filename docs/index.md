@@ -4,13 +4,16 @@ hero:
   name: "IT Faker"
   text: "Generatore di dati italiani realistici basato su Faker.js"
   tagline: Genera dati italiani consistenti per i tuoi test
+  image:
+    src: /icon.png
+    alt: Logo of it-faker
   actions:
     - theme: brand
       text: Inizia
       link: /guide/
     - theme: alt
       text: Vedi su GitHub
-      link: https://github.com/yourusername/it-faker
+      link: https://github.com/dawit-io/it-faker
 
 features:
   - icon: 📝
@@ -23,11 +26,3 @@ features:
     title: Indirizzi Corretti
     details: Formato italiano standard per vie, numeri civici e località
 ---
-
-<div class="custom-container">
-  <img 
-    src="/images/logo.png" 
-    alt="Logo" 
-    style="width: 200px; margin: 20px auto; display: block;"
-  >
-</div>

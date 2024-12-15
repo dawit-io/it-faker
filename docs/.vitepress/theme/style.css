@@ -151,31 +151,26 @@
   border: none !important;
 }
 
-/* Prima card con gradiente blu-viola */
 .VPFeatures .VPFeature:nth-child(1) {
   background: var(--card-1-gradient);
   backdrop-filter: blur(10px);
 }
 
-/* Seconda card con gradiente ciano-blu */
 .VPFeatures .VPFeature:nth-child(2) {
   background: var(--card-2-gradient);
   backdrop-filter: blur(10px);
 }
 
-/* Terza card con gradiente viola-blu */
 .VPFeatures .VPFeature:nth-child(3) {
   background: var(--card-3-gradient);
   backdrop-filter: blur(10px);
 }
 
-/* Hover effect comune */
 .VPFeatures .VPFeature:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Assicuriamoci che il testo rimanga leggibile */
 .VPFeatures .VPFeature .title {
   font-weight: 600;
 }
@@ -184,24 +179,7 @@
   opacity: 0.8;
 }
 
-/* Stile per l'icona */
 .VPFeatures .VPFeature .icon {
   background: transparent;
   font-size: 1.5rem;
-}
-
-.custom-img {
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  max-width: 100%;
-  height: auto;
-  margin: 20px 0;
-}
-
-.custom-container {
-  text-align: center;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 4px;
-  margin: 20px 0;
 }
