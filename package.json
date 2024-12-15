@@ -5,23 +5,32 @@
 	"type": "module",
 	"scripts": {
 		"test": "vitest",
+		"build": "tsc",
 		"docs": "typedoc --out docs src/lib",
 		"docs:dev": "vitepress dev docs",
 		"docs:build": "vitepress build docs",
 		"docs:preview": "vitepress preview docs"
 	},
-	"files": ["dist"],
-	"main": "./dist/it-faker.umd.js",
-	"module": "./dist/it-faker.es.js",
-	"types": "./dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"main": "./dist/lib/index.js",
+	"module": "./dist/lib/index.mjs",
+	"types": "./dist/lib/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/it-faker.es.js",
-			"require": "./dist/it-faker.umd.js",
-			"types": "./dist/index.d.ts"
+			"types": "./dist/lib/index.d.ts",
+			"import": "./dist/lib/index.js",
+			"require": "./dist/lib/index.js"
 		}
 	},
-	"keywords": ["faker", "faker-js", "italian", "fake-data", "testing"],
+	"keywords": [
+		"faker",
+		"faker-js",
+		"italian",
+		"fake-data",
+		"testing"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/dawit-io/it-faker.git"
