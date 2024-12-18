@@ -33,26 +33,28 @@ import { itFaker } from '@italia-tools/faker';
 ### Generate Coherent Personal Data
 ```typescript
 // Generate a complete person with consistent data
-const person = itFaker.person.generate();
+const person = itFaker.itPerson.generatePerson();
 // Returns an object with name, surname, fiscal code, and address
 // All data is coherent (e.g., fiscal code matches the person's details)
 
 // Generate individual components
-const name = itFaker.names.firstName();     // Statistically accurate Italian first name
-const surname = itFaker.lastNames.get();    // Region-specific last name
-const fiscalCode = itFaker.fiscalCode.get(); // Valid Italian fiscal code
+const name = itFaker.itPerson.firstName({ gender: 'female'});     // Statistically accurate Italian first name
+const surname = itFaker.itPerson.lastName();    // Random last name
+const fullName = itFaker.itPerson.fullName({ gender: 'male'}); // Full name
+const fiscalCode = itFaker.itPerson.fiscalCode(); // Valid Italian fiscal code
+const localPerson = itFaker.itPerson.generatePerson({ province: 'Bolzano' }); // Last name  based on the actual distribution in the province
 ```
 
 ### Generate Location Data
 ```typescript
 // Generate coherent geographic data
-const address = itFaker.addresses.get();
+const address = itFaker.itPlace.fullAddress();
 // Returns a complete Italian address with consistent city, province, and region
 
 // Generate specific location components
-const city = itFaker.places.city();         // Real Italian city
-const province = itFaker.places.province(); // Province matching the region
-const region = itFaker.places.region();     // Italian region
+const randomCity = itFaker.itPlace.randomCity();         // Real Italian city with name, code, zone, province and region
+const cityByRegion = itFaker.itPlace.city({ region: 'Lombardia' }); // City matching the region/province
+const region = itFaker.places.region();     // Random italian region
 ```
 
 ## TypeScript Support
@@ -76,12 +78,12 @@ interface Address {
 ```
 
 ## Integration with Faker.js
-IT-Faker extends the Italian locale of Faker.js with additional functionalities specific to the Italian context. You can use it alongside regular Faker.js methods while having access to specialized Italian data generation:
+Although we recommend using IT-Faker as it takes into account the actual Italian statistical distribution of data, you can still use the standard Faker.js methods. IT-Faker extends Faker.js's Italian locale by adding functionalities specific to the Italian context. You can use it alongside standard Faker.js methods, taking advantage of both the basic features and specialized Italian data generation.:
 
 ```typescript
 // Mix IT-Faker with regular Faker.js methods
-const phoneNumber = itFaker.phone.number(); // Italian format
-const email = itFaker.internet.email();     // Regular Faker.js method
+const phoneNumber = itFaker.itPerson.firstName(); // IT-Faker format
+const email = itFaker.person.firstName();     // Regular Faker.js method
 ```
 
 ## Next Steps
