@@ -73,7 +73,7 @@ const person = itFaker.itPerson.generatePerson({
 });
 
 // Just need a name?
-const name = itFaker.itPerson.fullName({ gender: 'male' });  // "Prof. Giuseppe Bianchi"
+const name = itFaker.itPerson.fullName({ gender: 'male', prefix: true });  // "Prof. Giuseppe Bianchi"
 
 // Professional email?
 const email = itFaker.itPerson.email('Mario', 'Verdi');  // "mario.verdi@gmail.com"
