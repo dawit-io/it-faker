@@ -1,7 +1,7 @@
 # Italian Person Module
 
 <script setup>
-import PersonDemo from '.vitepress/theme/components/PersonDemo.vue'
+import PersonDemo from '../.vitepress/theme/components/PersonDemo.vue'
 </script>
 
 The `ItPersonModule` provides methods for generating realistic personal data in the Italian context, including names, fiscal codes, email addresses, and phone numbers.
@@ -9,13 +9,13 @@ The `ItPersonModule` provides methods for generating realistic personal data in 
 ## Installation
 
 ```bash
-npm install @it-faker
+npm i @italia-tools/faker
 ```
 
 ## Basic Usage
 
 ```typescript
-import { ItFaker } from 'it-faker';
+import { ItFaker } from '@italia-tools/faker';
 
 const faker = new ItFaker();
 ```
@@ -35,28 +35,28 @@ Generates an Italian first name. If gender is specified, returns a male or femal
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.firstName('male')); // 'Marco'
-console.log(faker.it.person.firstName('female')); // 'Giulia'
+console.log(faker.itPerson.firstName({ gender: 'male'})); // 'Marco'
+console.log(faker.itPerson.firstName({ gender: 'female'})); // 'Giulia'
 ```
 
 ### lastName()
 
-Genera un cognome italiano comune.
+Generate common italian surname.
 
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.lastName()); // 'Rossi'
+console.log(faker.itPerson.lastName()); // 'Rossi'
 ```
 
-### lastName()
+### Generate a Person with Specific Province
 
-Generates a common Italian surname.
+Generate an Italian last name based on real last name distribution.
 
 ```typescript
 const faker = new ItFaker();
-
-console.log(faker.it.person.lastName()); // 'Rossi'
+const localPerson = itFaker.itPerson.generatePerson({ province: 'Bolzano' })
+console.log(localPerson.lastName); // 'Gruber'
 ```
 
 <view-source />
@@ -68,8 +68,8 @@ Generates a complete Italian name, optionally specifying gender.
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.fullName('male')); // 'Marco Rossi'
-console.log(faker.it.person.fullName('female')); // 'Giulia Bianchi'
+console.log(faker.itPerson.fullName('male')); // 'Marco Rossi'
+console.log(faker.itPerson.fullName('female')); // 'Giulia Bianchi'
 ```
 
 <view-source />
@@ -81,8 +81,8 @@ Generates an Italian professional title appropriate to the gender.
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.prefix('male')); // 'Dott.'
-console.log(faker.it.person.prefix('female')); // 'Dott.ssa'
+console.log(faker.itPerson.prefix('male')); // 'Dott.'
+console.log(faker.itPerson.prefix('female')); // 'Dott.ssa'
 ```
 
 <view-source />
@@ -94,8 +94,8 @@ Generates a complete name with professional title.
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.fullNameWithTitle('male')); // 'Dott. Marco Rossi'
-console.log(faker.it.person.fullNameWithTitle('female')); // 'Dott.ssa Giulia Bianchi'
+console.log(faker.itPerson.fullNameWithTitle('male')); // 'Dott. Marco Rossi'
+console.log(faker.itPerson.fullNameWithTitle('female')); // 'Dott.ssa Giulia Bianchi'
 ```
 
 <view-source />
@@ -107,7 +107,7 @@ Generates a valid Italian fiscal code based on random personal data.
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.fiscalCode()); // 'RSSMRC80A01H501X'
+console.log(faker.itPerson.fiscalCode()); // 'RSSMRC80A01H501X'
 ```
 
 <view-source />
@@ -119,7 +119,7 @@ Generates an Italian city of birth.
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.birthPlace()); // 'Roma'
+console.log(faker.itPerson.birthPlace()); // 'Roma'
 ```
 
 <view-source />
@@ -131,7 +131,7 @@ Returns an object containing the name and code of an Italian province.
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.province()); // { name: 'Roma', code: 'RM' }
+console.log(faker.itPerson.province()); // { name: 'Roma', code: 'RM' }
 ```
 
 <view-source />
@@ -143,7 +143,7 @@ Generates a random birth date between 1950 and 2005.
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.birthDate()); // 1980-01-01T00:00:00.000Z
+console.log(faker.itPerson.birthDate()); // 1980-01-01T00:00:00.000Z
 ```
 
 <view-source />
@@ -155,7 +155,7 @@ Generates a valid Italian mobile phone number.
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.phone()); // '3201234567'
+console.log(faker.itPerson.phone()); // '3201234567'
 ```
 
 <view-source />
@@ -167,7 +167,7 @@ Generates a valid Italian landline phone number.
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.landline()); // '0612345678'
+console.log(faker.itPerson.landline()); // '0612345678'
 ```
 
 <view-source />
@@ -179,8 +179,8 @@ Generates an email address optionally based on specific first and last names.
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.email()); // 'marco.rossi@gmail.com'
-console.log(faker.it.person.email('giuseppe', 'verdi')); // 'giuseppe.verdi@libero.it'
+console.log(faker.itPerson.email()); // 'marco.rossi@gmail.com'
+console.log(faker.itPerson.email('giuseppe', 'verdi')); // 'giuseppe.verdi@libero.it'
 ```
 
 <view-source />
@@ -192,8 +192,8 @@ Generates a PEC (Certified Electronic Mail) address optionally based on specific
 ```typescript
 const faker = new ItFaker();
 
-console.log(faker.it.person.pec()); // 'marco.rossi@pec.it'
-console.log(faker.it.person.pec('giuseppe', 'verdi')); // 'giuseppe.verdi@legalmail.it'
+console.log(faker.itPerson.pec()); // 'marco.rossi@pec.it'
+console.log(faker.itPerson.pec('giuseppe', 'verdi')); // 'giuseppe.verdi@legalmail.it'
 ```
 
 <view-source />
@@ -206,15 +206,15 @@ Here's an example that uses various module methods to generate a complete person
 const faker = new ItFaker();
 
 const profile = {
-    title: faker.it.person.prefix('male'),
-    fullName: faker.it.person.fullName('male'),
-    fiscalCode: faker.it.person.fiscalCode(),
-    birthDate: faker.it.person.birthDate(),
-    birthPlace: faker.it.person.birthPlace(),
-    province: faker.it.person.province(),
-    phone: faker.it.person.phone(),
-    email: faker.it.person.email(),
-    pec: faker.it.person.pec()
+    title: faker.itPerson.prefix('male'),
+    fullName: faker.itPerson.fullName('male'),
+    fiscalCode: faker.itPerson.fiscalCode(),
+    birthDate: faker.itPerson.birthDate(),
+    birthPlace: faker.itPerson.birthPlace(),
+    province: faker.itPerson.province(),
+    phone: faker.itPerson.phone(),
+    email: faker.itPerson.email(),
+    pec: faker.itPerson.pec()
 };
 
 console.log(JSON.stringify(profile, null, 2));

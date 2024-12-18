@@ -4,9 +4,9 @@ Generate authentic Italian fake data with real demographic distributions and for
 
 > ⚠️ **Development Status**: This library is currently under active development. Features may be incomplete, APIs might change, and some links/references are not yet functional. Feel free to try it out and contribute, but please note it's not yet production-ready!
 
-[![npm version](https://badge.fury.io/js/@faker-it/core.svg)](https://badge.fury.io/js/@faker-it/core)
+[![npm version](https://img.shields.io/npm/v/@italia-tools/faker)](https://www.npmjs.com/package/@italia-tools/faker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Development Status](https://img.shields.io/badge/status-under%20development-yellow)](https://github.com/yourusername/faker-it)
+[![Development Status](https://img.shields.io/badge/status-under%20development-yellow)](https://github.com/dawit-io/it-faker)
 
 ## 🌟 Highlights
 
@@ -129,7 +129,7 @@ const businessPerson = itFaker.itPerson.generatePerson({
 
 ## 📖 Documentation
 
-Visit our [detailed documentation](https://it-faker.gojodigital.com/) for complete API reference.
+Visit our [detailed documentation](https://dawit-io.github.io/it-faker/) for complete API reference.
 
 ## 🤝 Contributing
 

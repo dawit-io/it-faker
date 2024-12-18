@@ -55,7 +55,7 @@ To verify your installation, you can run this simple test:
 import { itFaker } from '@italia-tools/faker';
 
 // Should generate an Italian name
-console.log(itFaker.names.firstName());
+console.log(itFaker.itPerson.firstName());
 ```
 
 ## Next Steps
