@@ -1,6 +1,6 @@
 {
 	"name": "@italia-tools/faker",
-	"version": "0.0.1-alpha.4",
+	"version": "0.0.1-alpha.5",
 	"description": "Italian-specific fake data generator based on Faker.js",
 	"type": "module",
 	"scripts": {
@@ -36,7 +36,7 @@
 	"bugs": {
 		"url": "https://github.com/dawit-io/it-faker/issues"
 	},
-	"homepage": "https://github.com/dawit-io/it-faker#readme",
+	"homepage": "https://dawit-io.github.io/it-faker/",
 	"dependencies": {
 		"@faker-js/faker": "^9.3.0"
 	},
