@@ -10,12 +10,13 @@ Generate authentic Italian fake data with real demographic distributions and for
 
 ## 🌟 Highlights
 
-- **Complete Italian Personas** - Generate full profiles with consistent data
+- **Complete Italian Personal Profiles** - Generate full profiles with consistent data
 - **Real Geographic Data** - Actual Italian cities, provinces, and regions
 - **Smart Fiscal Codes** - Valid codice fiscale generation
 - **Professional Titles** - Including proper Italian honorifics (Dott., Ing., etc.)
 - **Contact Details** - Email, PEC, phone numbers in Italian format
 - **Modular Design** - Use just what you need
+- **Async Support** - All methods support both Promise and Observable patterns
 
 ## 🚀 Quick Start
 
@@ -25,46 +26,60 @@ npm i @italia-tools/faker
 
 ## 💫 Create a Complete Italian Person
 
-```javascript
+### Using Promises
+
+```typescript
 import { ItFaker } from '@italia-tools/faker';
 
 const itFaker = new ItFaker();
 
-const person = itFaker.itPerson.generatePerson();
+// Using Promise
+await itFaker.itPerson.generatePerson()
+  .then(person => {
+    console.log(person);
+    // {
+    //   "fullName": "Marco Rossi",
+    //   "firstName": "Marco",
+    //   "lastName": "Rossi",
+    //   "gender": "makle",
+    //   "birthDate": "1947-05-10T02:38:15.257Z",
+    //   "birthPlace": {
+    //     "city": "Milano",
+    //     "province": "Milano",
+    //     "region": "Lombardia"
+    //   },
+    //   "fiscalCode": "RSSMRC85L15F205X",
+    //   "contacts": {
+    //     "phone": "3681961744",
+    //     "email": "marco.rossi@gmail.com",
+    //     "pec": "marco.rossi@pec.it"
+    //   },
+    //   "address": "Via Garibaldi, 118 Scala D, Piano 2, 00100 Roma (RM)"
+    // }
+  });
 
-console.log(person);
-// {
-//   fullName: "Dott. Marco Rossi",
-//   firstName: "Marco",
-//   lastName: "Rossi",
-//   gender: "M",
-//   birthDate: "1985-07-15T10:30:00.000Z",
-//   birthPlace: {
-//     city: "Milano",
-//     province: "Milano",
-//     region: "Lombardia"
-//   },
-//   fiscalCode: "RSSMRC85L15F205X",
-//   contacts: {
-//     phone: "3201234567",
-//     email: "marco.rossi@gmail.com",
-//     pec: "marco.rossi@pec.it"
-//   },
-//   address: {
-//     street: "Via Garibaldi",
-//     number: "42",
-//     city: "Roma",
-//     province: "RM",
-//     postalCode: "00100"
-//   }
-// }
+// Or using async/await
+const person = await itFaker.itPerson.generatePerson();
+```
+
+### Using Observables
+
+```typescript
+import { ItFaker } from '@italia-tools/faker';
+
+const itFaker = new ItFaker();
+
+// Using Observable
+itFaker.itPerson.generatePerson$().subscribe(person => {
+  console.log(person);
+});
 ```
 
 ## 🎯 Specific Generation
 
-```javascript
-// Generate with specific options
-const person = itFaker.itPerson.generatePerson({
+```typescript
+// Generate with specific options (Promise)
+const person = await itFaker.itPerson.generatePerson({
   gender: 'male',
   region: 'Lombardia',
   minAge: 25,
@@ -72,37 +87,54 @@ const person = itFaker.itPerson.generatePerson({
   withTitle: true
 });
 
-// Just need a name?
-const name = itFaker.itPerson.fullName({ gender: 'male', prefix: true });  // "Prof. Giuseppe Bianchi"
+// Or using Observable
+itFaker.itPerson.generatePerson$({
+  gender: 'male',
+  region: 'Lombardia',
+  minAge: 25,
+  maxAge: 35,
+  withTitle: true
+}).subscribe(person => console.log(person));
 
-// Professional email?
-const email = itFaker.itPerson.email('Mario', 'Verdi');  // "mario.verdi@gmail.com"
+// Just need a name? (Promise)
+const name = await itFaker.itPerson.fullName({ gender: 'male', prefix: true });
+// "Prof. Giuseppe Bianchi"
 
-// Need a PEC address?
-const pec = itFaker.itPerson.pec('Mario', 'Verdi');  // "mario.verdi@pec.it"
+// Professional email? (Observable)
+itFaker.itPerson.email$('Mario', 'Verdi')
+  .subscribe(email => console.log(email));  // "mario.verdi@gmail.com"
 
-// Italian mobile number?
-const phone = itFaker.itPerson.phone();  // "3281234567"
+// Need a PEC address? (Promise)
+const pec = await itFaker.itPerson.pec('Mario', 'Verdi');  
+// "mario.verdi@pec.it"
 
-// Landline number?
-const landline = itFaker.itPerson.landline();  // "021234567"
+// Italian mobile number? (Observable)
+itFaker.itPerson.phone$()
+  .subscribe(phone => console.log(phone));  // "3281234567"
+
+// Landline number? (Promise)
+const landline = await itFaker.itPerson.landline();  
+// "021234567"
 ```
 
 ## 🏛 Geographic Data
 
-```javascript
-// Get a random Italian city
-const birthPlace = itFaker.itPerson.birthPlace();  // "Milano"
+```typescript
+// Get a random Italian city (Promise)
+const birthPlace = await itFaker.itPerson.birthPlace();  
+// "Milano"
 
-// Get province info
-const province = itFaker.itPerson.province();
+// Get province info (Observable)
+itFaker.itPerson.province$()
+  .subscribe(province => console.log(province));
 // { name: "Milano", code: "MI" }
 ```
 
 ## 🛠 Advanced Options
 
-```javascript
-const businessPerson = itFaker.itPerson.generatePerson({
+```typescript
+// Using Promise
+const businessPerson = await itFaker.itPerson.generatePerson({
   gender: 'female',
   region: 'Lazio',
   province: 'RM',
@@ -110,6 +142,16 @@ const businessPerson = itFaker.itPerson.generatePerson({
   minAge: 30,
   maxAge: 65
 });
+
+// Using Observable
+itFaker.itPerson.generatePerson$({
+  gender: 'female',
+  region: 'Lazio',
+  province: 'RM',
+  withTitle: true,
+  minAge: 30,
+  maxAge: 65
+}).subscribe(businessPerson => console.log(businessPerson));
 ```
 
 ## 🎯 Use Cases
