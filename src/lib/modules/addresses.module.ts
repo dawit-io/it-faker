@@ -1,6 +1,8 @@
 import { Faker } from "@faker-js/faker";
 import { PlacesModule } from "./places.module";
 import { LastNameModule } from "./lastName.module";
+import { Observable, of, lastValueFrom } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 export class AddressModule {
     private readonly placesModule: PlacesModule;
@@ -45,8 +47,8 @@ export class AddressModule {
         this.lastNameModule = new LastNameModule(faker);
     }
 
-    streetName(region?: string): string {
-        const allPatterns = [
+    streetName$(region?: string): Observable<string> {
+        const basePatterns = [
             ...this.historicalFigures,
             ...this.saints,
             ...this.importantDates,
@@ -54,19 +56,67 @@ export class AddressModule {
             ...this.geographicalReferences
         ];
 
-        if (region) {
-            const regionalFigure = this.lastNameModule.lastName({ region });
-            allPatterns.push(regionalFigure);
+        if (!region) {
+            return of(this.faker.helpers.arrayElement(basePatterns));
         }
 
-        return this.faker.helpers.arrayElement(allPatterns);
+        return this.lastNameModule.lastName$({ region }).pipe(
+            map(regionalFigure => {
+                const allPatterns = [...basePatterns, regionalFigure];
+                return this.faker.helpers.arrayElement(allPatterns);
+            })
+        );
     }
 
-    streetAddress(options?: { region?: string }): string {
-        const streetType = this.faker.helpers.arrayElement(this.streetTypes);
-        const name = this.streetName(options?.region);
-        const buildingNumber = this.buildingNumber();
-        return `${streetType} ${name}, ${buildingNumber}`;
+    streetAddress$(options?: { region?: string }): Observable<string> {
+        return this.streetName$(options?.region).pipe(
+            map(name => {
+                const streetType = this.faker.helpers.arrayElement(this.streetTypes);
+                const buildingNumber = this.buildingNumber();
+                return `${streetType} ${name}, ${buildingNumber}`;
+            })
+        );
+    }
+
+    apartmentDetails$(): Observable<string> {
+        return of(this.generateApartmentDetails());
+    }
+
+    completeAddress$(options?: { region?: string }): Observable<string> {
+        return this.streetAddress$(options).pipe(
+            switchMap(streetAddr => 
+                (options?.region 
+                    ? this.placesModule.city$({ region: options.region })
+                    : this.placesModule.randomCity$()
+                ).pipe(
+                    map(city => {
+                        const apartment = this.generateApartmentDetails();
+                        const cap = city.postalCodes[0] || this.faker.string.numeric(5);
+                        return [
+                            streetAddr,
+                            apartment,
+                            `${cap} ${city.name} (${city.provinceCode})`
+                        ].join(' ');
+                    })
+                )
+            )
+        );
+    }
+
+    async streetName(region?: string): Promise<string> {
+        return lastValueFrom(this.streetName$(region));
+    }
+
+    async streetAddress(options?: { region?: string }): Promise<string> {
+        return lastValueFrom(this.streetAddress$(options));
+    }
+
+    async apartmentDetails(): Promise<string> {
+        return lastValueFrom(this.apartmentDetails$());
+    }
+
+    async completeAddress(options?: { region?: string }): Promise<string> {
+        return lastValueFrom(this.completeAddress$(options));
     }
 
     private buildingNumber(): string {
@@ -78,7 +128,7 @@ export class AddressModule {
         return suffix ? `${number}${suffix}` : `${number}`;
     }
 
-    apartmentDetails(): string {
+    private generateApartmentDetails(): string {
         const buildings = ['A', 'B', 'C', 'D', 'E', 'F'];
         const floor = this.faker.number.int({ min: 0, max: 10 });
         const apartmentNumber = this.faker.number.int({ min: 1, max: 20 });
@@ -89,20 +139,4 @@ export class AddressModule {
         
         return `Scala ${this.faker.helpers.arrayElement(buildings)}, Piano ${floor}, Interno ${apartmentNumber}${internalLetter || ''}`;
     }
-
-    completeAddress(options?: { region?: string }): string {
-        const streetAddr = this.streetAddress(options);
-        const apartment = this.apartmentDetails();
-        const city = options?.region 
-            ? this.placesModule.city({ region: options.region })
-            : this.placesModule.randomCity();
-        const cap = city.postalCodes[0] || this.faker.string.numeric(5);
-
-        return [
-            streetAddr,
-            apartment,
-            `${cap} ${city.name} (${city.provinceCode})`
-        ].join(' ');
-    }
-    
 }

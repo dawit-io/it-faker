@@ -1,12 +1,8 @@
 import { Faker } from "@faker-js/faker";
-import { RegionalLastName } from "../types/types";
 import { NameUtils } from "../utils/nameUtils";
-import regionalLastNamesData from '../data/lastNamesByProvince.json';
-import randomLastNamesData from '../data/lastNames.json';
 import { LastNameSelector } from "../utils/lastNameSelector";
-
-const regionalLastNames = regionalLastNamesData as RegionalLastName[];
-const randomLastNames = randomLastNamesData as string[];
+import { Observable, lastValueFrom } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface LastNameOptions {
     region?: string;
@@ -17,15 +13,28 @@ export class LastNameModule {
     private readonly lastNameSelector: LastNameSelector;
 
     constructor(readonly faker: Faker) {
-        this.lastNameSelector = new LastNameSelector(
-            regionalLastNames,
-            randomLastNames,
-            faker
+        this.lastNameSelector = new LastNameSelector(faker);
+    }
+
+    lastName$(options?: LastNameOptions): Observable<string> {
+        return this.lastNameSelector.select(options).pipe(
+            map(name => NameUtils.formatItalianName(name))
         );
     }
 
-    lastName(options?: LastNameOptions): string {
-        const name = this.lastNameSelector.select(options);
-        return NameUtils.formatItalianName(name);
+    preloadData$(): Observable<void> {
+        return this.lastNameSelector.preloadData();
+    }
+
+    async lastName(options?: LastNameOptions): Promise<string> {
+        return lastValueFrom(this.lastName$(options));
+    }
+
+    async preloadData(): Promise<void> {
+        return lastValueFrom(this.preloadData$());
+    }
+
+    clearCache(): void {
+        this.lastNameSelector.clearCache();
     }
 }
