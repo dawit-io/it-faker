@@ -33,7 +33,7 @@ export class WeightedRandomSelector<T> {
     private initializeSmallDataset(items: WeightedItem<T>[]): void {
         this.fastAccessArray = [];
         items.forEach(item => {
-            // Per i dataset piccoli, manteniamo la rappresentazione diretta
+            // For small datasets, we keep direct representation
             this.fastAccessArray!.push(...Array(item.weight).fill(item.value));
         });
     }
@@ -45,7 +45,7 @@ export class WeightedRandomSelector<T> {
         this.items = [];
         let accumulatedWeight = 0;
 
-        // Se non è ordinato, ordiniamo per peso decrescente per ottimizzare la ricerca
+        // If not sorted, sort by descending weight to optimize search
         const workingItems = isSorted ? items : [...items].sort((a, b) => b.weight - a.weight);
 
         workingItems.forEach(item => {
@@ -68,10 +68,9 @@ export class WeightedRandomSelector<T> {
             return this.fastAccessArray[Math.floor(Math.random() * this.fastAccessArray.length)];
         }
 
-        // Selezione basata su peso effettivo
         const randomWeight = Math.random() * this.totalWeight;
         
-        // Binary search per trovare l'elemento con il peso accumulato giusto
+        // Binary search to find element with correct cumulative weight
         return this.binarySearch(randomWeight);
     }
 
@@ -95,7 +94,7 @@ export class WeightedRandomSelector<T> {
             }
         }
 
-        // Fallback al primo elemento (non dovrebbe mai accadere)
+        // Fallback to first element (this should never happen)
         return this.items![0].value;
     }
 

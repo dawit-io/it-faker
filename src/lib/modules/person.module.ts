@@ -6,8 +6,8 @@ import { PlacesModule } from "./places.module";
 import { FiscalCodeModule, FiscalCodeOptions } from "./fiscalCode.module";
 import { AddressModule } from "./addresses.module";
 import { ItalianPersonDto } from "../types/dto/person.dto";
-import { Observable, from, of, forkJoin, lastValueFrom } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, of, forkJoin, lastValueFrom, combineLatest } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 
 export class PersonModule {
     private readonly lastNameModule: LastNameModule;
@@ -93,6 +93,7 @@ export class PersonModule {
     }
 
     generatePerson$(options?: PersonOptions): Observable<ItalianPersonDto> {
+        // Default values for basic personal information
         const gender = options?.gender || this.faker.helpers.arrayElement([Gender.Male, Gender.Female]);
         const birthDate = this.faker.date.birthdate({
             mode: 'age',
@@ -100,55 +101,59 @@ export class PersonModule {
             max: options?.maxAge || 80
         });
     
-        return this.placesModule.city$(
-            options?.province ? { province: options.province } :
-            options?.region ? { region: options.region } : undefined
-        ).pipe(
-            switchMap(birthCity => 
-                forkJoin({
+        // Build location options based on provided filters
+        const locationOptions = options?.province ? { province: options.province } :
+                              options?.region ? { region: options.region } : 
+                              undefined;
+        
+        const nameOptions = {
+            region: options?.region,
+            province: options?.province
+        };
+    
+        return this.placesModule.city$(locationOptions).pipe(
+            // First stage: Generate basic personal data
+            mergeMap(birthCity => 
+                combineLatest({
                     firstName: this.firstName$({ gender }),
-                    lastName: this.lastName$({
-                        region: options?.region,
-                        province: options?.province
-                    }),
+                    lastName: this.lastName$(nameOptions),
                     prefix: options?.withTitle ? this.prefix$(gender) : of(''),
+                    birthPlace: of(birthCity)
+                })
+            ),
+            // Second stage: Generate documents and contact details
+            mergeMap(({ firstName, lastName, prefix, birthPlace }) => 
+                combineLatest({
+                    base: of({ firstName, lastName, prefix, birthPlace }),
                     fiscalCode: this.fiscalCodeModule.generate$({
-                        firstName: '',  // Will be updated in map
-                        lastName: '',   // Will be updated in map
-                        gender,
-                        birthDate,
-                        birthPlace: birthCity
-                    })
-                }).pipe(
-                    switchMap(({ firstName, lastName, prefix, fiscalCode }) =>
-                        forkJoin({
-                            email: this.email$(firstName, lastName),
-                            pec: this.pec$(firstName, lastName),
-                            address: this.addressModule.completeAddress$()
-                        }).pipe(
-                            map(({ email, pec, address }) => ({
-                                fullName: [prefix, firstName, lastName].filter(Boolean).join(' '),
-                                firstName,
-                                lastName,
-                                gender,
-                                birthDate,
-                                birthPlace: {
-                                    city: birthCity.name,
-                                    province: birthCity.province.name,
-                                    region: birthCity.region.name
-                                },
-                                fiscalCode,
-                                contacts: {
-                                    phone: this.generatePhone(),
-                                    email,
-                                    pec
-                                },
-                                address
-                            }))
-                        )
-                    )
-                )
-            )
+                        firstName, lastName, gender, birthDate,
+                        birthPlace
+                    }),
+                    email: this.email$(firstName, lastName),
+                    pec: this.pec$(firstName, lastName),
+                    address: this.addressModule.completeAddress$()
+                })
+            ),
+            // Final stage: Compose complete person profile
+            map(({ base, fiscalCode, email, pec, address }) => ({
+                fullName: [base.prefix, base.firstName, base.lastName].filter(Boolean).join(' '),
+                firstName: base.firstName,
+                lastName: base.lastName,
+                gender,
+                birthDate,
+                birthPlace: {
+                    city: base.birthPlace.name,
+                    province: base.birthPlace.province.name,
+                    region: base.birthPlace.region.name
+                },
+                fiscalCode,
+                contacts: {
+                    phone: this.generatePhone(),
+                    email,
+                    pec
+                },
+                address
+            }))
         );
     }
 

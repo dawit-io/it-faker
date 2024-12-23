@@ -4,7 +4,7 @@ import { WeightedRandomSelector } from "../utils/weightedRandom";
 import { BirthPlace, Province } from "../types/types";
 import { ItalianCity, RawItalianCity } from "../types/city";
 import { Observable, from, BehaviorSubject, of, lastValueFrom } from 'rxjs';
-import { map, switchMap, tap, catchError, concatMap, toArray } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 
 export class PlacesModule {
     private dataSubject = new BehaviorSubject<{
