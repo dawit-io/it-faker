@@ -1,15 +1,28 @@
 import { Faker } from "@faker-js/faker";
 import { PlacesModule } from "./places.module";
 import { LastNameModule } from "./lastName.module";
+import { Observable, of, lastValueFrom } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 export class AddressModule {
     private readonly placesModule: PlacesModule;
     private readonly lastNameModule: LastNameModule;
     
+    // Street types with weighted probabilities
     private readonly streetTypes = [
-        'Via', 'Viale', 'Corso', 'Piazza', 'Largo', 'Vicolo', 
-        'Lungomare', 'Strada', 'Salita', 'Calata', 'Galleria', 
-        'Borgo', 'Traversa'
+        { value: 'Via', weight: 70 },      // Most common
+        { value: 'Viale', weight: 8 },     // Fairly common
+        { value: 'Piazza', weight: 8 },    // Fairly common
+        { value: 'Corso', weight: 5 },     // Less common
+        { value: 'Largo', weight: 3 },     // Rare
+        { value: 'Vicolo', weight: 2 },    // Very rare
+        { value: 'Lungomare', weight: 1 }, // Very rare
+        { value: 'Strada', weight: 1 },    // Very rare
+        { value: 'Salita', weight: 0.5 },  // Extremely rare
+        { value: 'Calata', weight: 0.5 },  // Extremely rare
+        { value: 'Galleria', weight: 0.5 }, // Extremely rare
+        { value: 'Borgo', weight: 0.3 },    // Extremely rare
+        { value: 'Traversa', weight: 0.2 }  // Extremely rare
     ];
 
     private readonly historicalFigures = [
@@ -29,10 +42,10 @@ export class AddressModule {
     ];
 
     private readonly culturalReferences = [
+        'Roma', 'Venezia', 'Milano', 'Napoli', // Common city-named streets
         'dei Mille', 'delle Grazie', 'della Repubblica', 'della Libertà',
         'della Costituzione', 'della Pace', 'dell\'Indipendenza', 'dell\'Unità',
-        'Verdi', 'Rossini', 'Puccini', 'Michelangelo',
-        'Leonardo', 'Raffaello', 'Brunelleschi'
+        'Verdi', 'Rossini', 'Puccini'
     ];
 
     private readonly geographicalReferences = [
@@ -45,8 +58,22 @@ export class AddressModule {
         this.lastNameModule = new LastNameModule(faker);
     }
 
-    streetName(region?: string): string {
-        const allPatterns = [
+    private getWeightedStreetType(): string {
+        const totalWeight = this.streetTypes.reduce((sum, type) => sum + type.weight, 0);
+        let random = this.faker.number.float({ min: 0, max: totalWeight });
+        
+        for (const streetType of this.streetTypes) {
+            random -= streetType.weight;
+            if (random <= 0) {
+                return streetType.value;
+            }
+        }
+        
+        return 'Via'; // Fallback to most common
+    }
+
+    streetName$(region?: string): Observable<string> {
+        const basePatterns = [
             ...this.historicalFigures,
             ...this.saints,
             ...this.importantDates,
@@ -54,55 +81,79 @@ export class AddressModule {
             ...this.geographicalReferences
         ];
 
-        if (region) {
-            const regionalFigure = this.lastNameModule.lastName({ region });
-            allPatterns.push(regionalFigure);
+        if (!region) {
+            return of(this.faker.helpers.arrayElement(basePatterns));
         }
 
-        return this.faker.helpers.arrayElement(allPatterns);
+        return this.lastNameModule.lastName$({ region }).pipe(
+            map(regionalFigure => {
+                const allPatterns = [...basePatterns, regionalFigure];
+                return this.faker.helpers.arrayElement(allPatterns);
+            })
+        );
     }
 
-    streetAddress(options?: { region?: string }): string {
-        const streetType = this.faker.helpers.arrayElement(this.streetTypes);
-        const name = this.streetName(options?.region);
-        const buildingNumber = this.buildingNumber();
-        return `${streetType} ${name}, ${buildingNumber}`;
+    streetAddress$(options?: { region?: string }): Observable<string> {
+        return this.streetName$(options?.region).pipe(
+            map(name => {
+                const streetType = this.getWeightedStreetType();
+                const buildingNumber = this.buildingNumber();
+                return `${streetType} ${name}, ${buildingNumber}`;
+            })
+        );
+    }
+
+    completeAddress$(options?: { region?: string }): Observable<string> {
+        return this.streetAddress$(options).pipe(
+            switchMap(streetAddr => 
+                (options?.region 
+                    ? this.placesModule.city$({ region: options.region })
+                    : this.placesModule.randomCity$()
+                ).pipe(
+                    map(city => {
+                        // Only 5% chance to include apartment details
+                        const includeApartmentDetails = this.faker.helpers.maybe(() => true, { probability: 0.05 });
+                        const apartment = includeApartmentDetails ? this.generateApartmentDetails() : '';
+                        const cap = city.postalCodes[0] || this.faker.string.numeric(5);
+                        
+                        const baseAddress = [streetAddr, apartment].filter(Boolean).join(' ');
+                        return `${baseAddress}, ${cap} ${city.name} (${city.provinceCode})`;
+                    })
+                )
+            )
+        );
     }
 
     private buildingNumber(): string {
         const number = this.faker.number.int({ min: 1, max: 300 });
         const suffix = this.faker.helpers.maybe(() => 
-            this.faker.helpers.arrayElement(['A', 'B', 'C', '/a', '/b', '/c', 'bis', 'ter']), 
-            { probability: 0.1 }
+            this.faker.helpers.arrayElement(['A', 'B', '/a', '/b', 'bis']), 
+            { probability: 0.05 } // Reduced probability for number suffixes
         );
         return suffix ? `${number}${suffix}` : `${number}`;
     }
 
-    apartmentDetails(): string {
-        const buildings = ['A', 'B', 'C', 'D', 'E', 'F'];
-        const floor = this.faker.number.int({ min: 0, max: 10 });
-        const apartmentNumber = this.faker.number.int({ min: 1, max: 20 });
+    private generateApartmentDetails(): string {
+        const buildings = ['A', 'B', 'C'];
+        const floor = this.faker.number.int({ min: 0, max: 8 });
+        const apartmentNumber = this.faker.number.int({ min: 1, max: 15 });
         const internalLetter = this.faker.helpers.maybe(() => 
-            this.faker.helpers.arrayElement(['a', 'b', 'c']), 
-            { probability: 0.3 }
+            this.faker.helpers.arrayElement(['a', 'b']), 
+            { probability: 0.2 }
         );
         
         return `Scala ${this.faker.helpers.arrayElement(buildings)}, Piano ${floor}, Interno ${apartmentNumber}${internalLetter || ''}`;
     }
 
-    completeAddress(options?: { region?: string }): string {
-        const streetAddr = this.streetAddress(options);
-        const apartment = this.apartmentDetails();
-        const city = options?.region 
-            ? this.placesModule.city({ region: options.region })
-            : this.placesModule.randomCity();
-        const cap = city.postalCodes[0] || this.faker.string.numeric(5);
-
-        return [
-            streetAddr,
-            apartment,
-            `${cap} ${city.name} (${city.provinceCode})`
-        ].join(' ');
+    async streetName(region?: string): Promise<string> {
+        return lastValueFrom(this.streetName$(region));
     }
-    
+
+    async streetAddress(options?: { region?: string }): Promise<string> {
+        return lastValueFrom(this.streetAddress$(options));
+    }
+
+    async completeAddress(options?: { region?: string }): Promise<string> {
+        return lastValueFrom(this.completeAddress$(options));
+    }
 }

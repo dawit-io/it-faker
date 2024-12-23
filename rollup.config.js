@@ -7,17 +7,35 @@ export default {
     input: 'src/lib/index.ts',
     output: [
         {
-            file: 'dist/lib/index.mjs',
-            format: 'es'
+            dir: 'dist/lib',
+            format: 'es',
+            entryFileNames: '[name].mjs',
+            chunkFileNames: 'chunks/[name]-[hash].mjs',
+            preserveModules: true,
+            preserveModulesRoot: 'src/lib',
+            inlineDynamicImports: false
         },
         {
-            file: 'dist/lib/index.cjs',
-            format: 'cjs'
+            dir: 'dist/lib',
+            format: 'cjs',
+            entryFileNames: '[name].cjs',
+            chunkFileNames: 'chunks/[name]-[hash].cjs',
+            preserveModules: true,
+            preserveModulesRoot: 'src/lib',
+            inlineDynamicImports: false
         }
     ],
-    external: ['@faker-js/faker'],
+    external: [
+        '@faker-js/faker',
+        'rxjs',
+        'rxjs/operators'
+    ],
     plugins: [
-        json(),
+        json({
+            compact: true,
+            preferConst: true,
+            namedExports: true
+        }),
         typescript({
             tsconfig: './tsconfig.json',
             declaration: true,

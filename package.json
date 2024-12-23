@@ -1,6 +1,6 @@
 {
 	"name": "@italia-tools/faker",
-	"version": "0.0.1-alpha.4",
+	"version": "0.1.0-alpha.0",
 	"description": "Italian-specific fake data generator based on Faker.js",
 	"type": "module",
 	"scripts": {
@@ -11,7 +11,9 @@
 		"docs:build": "vitepress build docs",
 		"docs:preview": "vitepress preview docs"
 	},
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"main": "./dist/lib/index.cjs",
 	"module": "./dist/lib/index.mjs",
 	"types": "./dist/lib/types/index.d.ts",
@@ -22,7 +24,13 @@
 			"types": "./dist/lib/types/index.d.ts"
 		}
 	},
-	"keywords": ["faker", "faker-js", "italian", "fake-data", "testing"],
+	"keywords": [
+		"faker",
+		"faker-js",
+		"italian",
+		"fake-data",
+		"testing"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/dawit-io/it-faker.git"
@@ -36,9 +44,10 @@
 	"bugs": {
 		"url": "https://github.com/dawit-io/it-faker/issues"
 	},
-	"homepage": "https://github.com/dawit-io/it-faker#readme",
+	"homepage": "https://dawit-io.github.io/it-faker/",
 	"dependencies": {
-		"@faker-js/faker": "^9.3.0"
+		"@faker-js/faker": "^9.3.0",
+		"rxjs": "^7.8.1"
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^28.0.2",

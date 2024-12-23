@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { ItFaker } from '../../../../src/lib'
-import { Gender } from '../../../../src/lib/types/types';
-import { ItalianPerson } from '../../../../src/lib/types/person';
-import { ItalianCity } from '../../../../src/lib/types/city';
-import { fi } from '@faker-js/faker';
+import { ItalianPersonDto } from '../../../../src/lib/types/dto/person.dto'
+import { Subject } from 'rxjs'
+import { finalize } from 'rxjs/operators'
 
 const faker = new ItFaker()
 
-// Form controls
 const selectedGender = ref('')
 const selectedProvince = ref('')
 const provinceSearch = ref('')
@@ -16,50 +14,41 @@ const includeTitle = ref(false)
 const minAge = ref(18)
 const maxAge = ref(80)
 const showProvinceDropdown = ref(false)
+const personData = ref<ItalianPersonDto | null>(null)
+const isLoading = ref(true)
 
-// Reset province search when selection is made
+const generateTrigger$ = new Subject<void>()
+
 watch(selectedProvince, () => {
   provinceSearch.value = selectedProvince.value
   showProvinceDropdown.value = false
 })
 
-function generatePerson() {
-  let birthCity: ItalianCity = selectedProvince.value ? faker.itPlace.city({ province: selectedProvince.value}) : faker.itPlace.randomCity();
-  let gender = faker.itPerson.parseGender(selectedGender.value);
-  let firstName = faker.itPerson.firstName();
-  let lastName = faker.itPerson.lastName();
-  let prefix = gender ? faker.itPerson.prefix(gender) : '';
-  let birthDate = faker.date.birthdate({ 
-      mode: 'age', 
-      min: minAge.value, 
-      max: maxAge.value 
-    });
-    /*
-  let person =  {
-    fullName: `${prefix} ${firstName} ${lastName}`.trim(),
-    birthDate: birthDate.toLocaleDateString('it-IT'),
-    birthPlace: {
-      city: birthCity.name,
-      province: birthCity.province.name,
-      region: birthCity.region.name
+generateTrigger$.pipe(
+  finalize(() => isLoading.value = false)
+).subscribe(() => {
+  isLoading.value = true
+  
+  const gender = faker.itPerson.parseGender(selectedGender.value)
+  
+  faker.itPerson.generatePerson$({ 
+    gender, 
+    withTitle: includeTitle.value, 
+    minAge: minAge.value, 
+    maxAge: maxAge.value, 
+    province: provinceSearch.value 
+  }).subscribe({
+    next: (person) => {
+      personData.value = person
     },
-    mobilePhone: faker.itPerson.phone(),
-    email: faker.itPerson.email(firstName, lastName),
-    pec: faker.itPerson.pec(firstName, lastName),
-    fiscalCode: ''
-  };
-    
-  person.fiscalCode = faker.itPerson.fiscalCode( {
-    birthDate: birthDate,
-    birthPlace: birthCity,
-    firstName,
-    lastName,
-    gender: gender
-  });*/
-  return faker.itPerson.generatePerson({ gender: gender, withTitle: includeTitle.value, minAge: minAge.value, maxAge: maxAge.value, province: provinceSearch.value,  });
-}
-
-const personData = ref(generatePerson())
+    error: (error) => {
+      console.error('Error generating person:', error)
+    },
+    complete: () => {
+      isLoading.value = false
+    }
+  })
+})
 
 const provinces = [
   'Roma', 'Milano', 'Napoli', 'Torino', 'Palermo', 
@@ -74,11 +63,11 @@ const filteredProvinces = computed(() => {
 })
 
 function regenerate() {
-  personData.value = generatePerson()
+  generateTrigger$.next()
 }
 
 onMounted(() => {
-  personData.value = generatePerson()
+  regenerate()
 })
 
 async function handleProvinceBlur() {
@@ -222,12 +211,18 @@ async function handleProvinceBlur() {
 
     <!-- Results -->
     <div class="bg-gray-50 p-6 rounded-xl">
-      <pre class="bg-white p-6 rounded-lg border-2 border-gray-100 overflow-auto"><code>{{ JSON.stringify(personData, null, 2) }}</code></pre>
+      <div v-if="isLoading" class="flex justify-center items-center p-6">
+        <span class="loading loading-spinner loading-lg"></span>
+      </div>      
+      <div v-else class="grid bg-white rounded-lg border-2 border-gray-100">
+        <pre class="p-6 m-0 overflow-auto"><code>{{ JSON.stringify(personData, null, 2) }}</code></pre>
+      </div>
       <button 
         @click="regenerate"
-        class="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors duration-200 font-medium flex items-center space-x-2"
+        :disabled="isLoading"
+        class="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors duration-200 font-medium flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <span>Regenerate</span>
+        <span>Rigenera</span>
       </button>
     </div>
   </div>

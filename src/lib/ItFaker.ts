@@ -6,24 +6,56 @@ import { FiscalCodeModule } from './modules/fiscalCode.module';
 import { LastNameModule } from './modules/lastName.module';
 
 export class ItFaker extends Faker {
-    itPerson: PersonModule;
-    itPlace: PlacesModule;
-    itAddress: AddressModule;
-    itFiscalCode: FiscalCodeModule;
-    itLastName: LastNameModule;
-    itFirstName: LastNameModule;
-
+    private _itPerson?: PersonModule;
+    private _itPlace?: PlacesModule;
+    private _itAddress?: AddressModule;
+    private _itFiscalCode?: FiscalCodeModule;
+    private _itLastName?: LastNameModule;
+    private _itFirstName?: LastNameModule;
 
     constructor() {
         super({ locale: [it] });
-        this.itPerson = new PersonModule(this);
-        this.itPlace = new PlacesModule(this);
-        this.itAddress = new AddressModule(this);
-        this.itFiscalCode = new FiscalCodeModule(this);
-        this.itLastName = new LastNameModule(this);
-        this.itFirstName = new LastNameModule(this);
     }
 
-}
+    get itPerson(): PersonModule {
+        if (!this._itPerson) {
+            this._itPerson = new PersonModule(this);
+        }
+        return this._itPerson;
+    }
 
-export default ItFaker;
+    get itPlace(): PlacesModule {
+        if (!this._itPlace) {
+            this._itPlace = new PlacesModule(this);
+        }
+        return this._itPlace;
+    }
+
+    get itAddress(): AddressModule {
+        if (!this._itAddress) {
+            this._itAddress = new AddressModule(this);
+        }
+        return this._itAddress;
+    }
+
+    get itFiscalCode(): FiscalCodeModule {
+        if (!this._itFiscalCode) {
+            this._itFiscalCode = new FiscalCodeModule(this);
+        }
+        return this._itFiscalCode;
+    }
+
+    get itLastName(): LastNameModule {
+        if (!this._itLastName) {
+            this._itLastName = new LastNameModule(this);
+        }
+        return this._itLastName;
+    }
+
+    get itFirstName(): LastNameModule {
+        if (!this._itFirstName) {
+            this._itFirstName = new LastNameModule(this);
+        }
+        return this._itFirstName;
+    }
+}

@@ -183,3 +183,7 @@
   background: transparent;
   font-size: 1.5rem;
 }
+
+.VPHomeHero.VPHero{
+  padding-top: 80px;
+}

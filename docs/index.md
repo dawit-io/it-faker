@@ -2,27 +2,36 @@
 layout: home
 hero:
   name: "IT Faker"
-  text: "Generatore di dati italiani realistici basato su Faker.js"
-  tagline: Genera dati italiani consistenti per i tuoi test
+  text: "Realistic Italian data generator based on Faker.js"
+  tagline: Create synthetic Italian data with real-world patterns at scale
   image:
     src: /icon.png
     alt: Logo of it-faker
   actions:
     - theme: brand
-      text: Inizia
+      text: Get Started
       link: /guide/
     - theme: alt
-      text: Vedi su GitHub
+      text: View on GitHub
       link: https://github.com/dawit-io/it-faker
 
 features:
+  - icon: 👥
+    title: Regional Surname Distribution
+    details: Last names generated following real statistical patterns by region and province
+  - icon: 📊
+    title: Statistical First Names
+    details: Names based on actual ISTAT frequency data across Italian population
+  - icon: 🗺️
+    title: Geographic Coherence
+    details: Municipalities, provinces, and regions with real administrative relationships
   - icon: 📝
-    title: Codici Fiscali Validi
-    details: Generazione automatica basata su nome, data e luogo di nascita
-  - icon: 🏛️
-    title: Geografia Reale
-    details: Comuni, province e CAP corrispondenti alla vera geografia italiana
-  - icon: 📨
-    title: Indirizzi Corretti
-    details: Formato italiano standard per vie, numeri civici e località
+    title: Validated Fiscal Codes
+    details: Automatically generated and validated Italian tax codes with checksum
+  - icon: 🏘️
+    title: Smart Address Generation
+    details: Complete addresses with province-aware postal codes and local formats
+  - icon: ⚡
+    title: Async Patterns Support
+    details: Choose between Promise-based calls or reactive Observable streams
 ---
