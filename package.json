@@ -1,19 +1,18 @@
 {
 	"name": "@italia-tools/faker",
-	"version": "0.1.0-alpha.0",
+	"version": "0.1.0-alpha.1",
 	"description": "Italian-specific fake data generator based on Faker.js",
 	"type": "module",
 	"scripts": {
-		"test": "vitest",
 		"build": "rollup -c",
 		"docs": "typedoc --out docs src/lib",
 		"docs:dev": "vitepress dev docs",
 		"docs:build": "vitepress build docs",
-		"docs:preview": "vitepress preview docs"
+		"docs:preview": "vitepress preview docs",
+		"test": "vitest",
+		"test:coverage": "vitest run --coverage"
 	},
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"main": "./dist/lib/index.cjs",
 	"module": "./dist/lib/index.mjs",
 	"types": "./dist/lib/types/index.d.ts",
@@ -24,13 +23,7 @@
 			"types": "./dist/lib/types/index.d.ts"
 		}
 	},
-	"keywords": [
-		"faker",
-		"faker-js",
-		"italian",
-		"fake-data",
-		"testing"
-	],
+	"keywords": ["faker", "faker-js", "italian", "fake-data", "testing"],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/dawit-io/it-faker.git"
@@ -44,9 +37,10 @@
 	"bugs": {
 		"url": "https://github.com/dawit-io/it-faker/issues"
 	},
-	"homepage": "https://dawit-io.github.io/it-faker/",
+	"homepage": "http://it-faker.gojodigital.com/",
 	"dependencies": {
 		"@faker-js/faker": "^9.3.0",
+		"joi": "^17.13.3",
 		"rxjs": "^7.8.1"
 	},
 	"devDependencies": {
@@ -57,6 +51,7 @@
 		"@tailwindcss/typography": "^0.5.15",
 		"@types/node": "^22.10.2",
 		"@vitejs/plugin-vue": "^5.2.1",
+		"@vitest/coverage-v8": "^2.1.8",
 		"autoprefixer": "^10.4.20",
 		"postcss": "^8.4.49",
 		"rollup": "^4.28.1",
@@ -65,6 +60,7 @@
 		"typescript": "^5.7.2",
 		"vite": "^6.0.3",
 		"vitepress": "^1.5.0",
+		"vitest": "^2.1.8",
 		"vue": "^3.3.4"
 	}
 }

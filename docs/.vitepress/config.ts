@@ -42,7 +42,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/dawit-io/it-faker' }  // Update with your repo
+      { icon: 'github', link: 'https://github.com/dawit-io/it-faker' }
     ]
   }
 })

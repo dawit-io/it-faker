@@ -171,7 +171,7 @@ itFaker.itPerson.generatePerson$({
 
 ## 📖 Documentation
 
-Visit our [detailed documentation](https://dawit-io.github.io/it-faker/) for complete API reference.
+Visit our [detailed documentation](http://it-faker.gojodigital.com/) for complete API reference.
 
 ## 🤝 Contributing
 
