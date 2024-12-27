@@ -25,3 +25,5 @@ dist-ssr
 .ignore
 # Ignore VitePress cache
 docs/.vitepress/cache
+# Ignore vitest build cache
+coverage/
