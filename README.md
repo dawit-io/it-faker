@@ -6,7 +6,7 @@ Generate authentic Italian fake data with real demographic distributions and for
 
 [![npm version](https://img.shields.io/npm/v/@italia-tools/faker)](https://www.npmjs.com/package/@italia-tools/faker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Development Status](https://img.shields.io/badge/status-under%20development-yellow)](https://github.com/dawit-io/it-faker)
+[![Coverage Status](https://codecov.io/gh/dawit-io/it-faker/branch/master/graph/badge.svg)](https://codecov.io/gh/dawit-io/it-faker)
 
 ## 🌟 Highlights
 
