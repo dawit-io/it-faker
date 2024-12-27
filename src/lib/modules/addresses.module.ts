@@ -1,13 +1,13 @@
-import { Faker } from "@faker-js/faker";
+import type { Faker } from "@faker-js/faker";
 import { PlacesModule } from "./places.module";
 import { LastNameModule } from "./lastName.module";
-import { Observable, of, lastValueFrom } from 'rxjs';
+import { type Observable, of, lastValueFrom } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 export class AddressModule {
     private readonly placesModule: PlacesModule;
     private readonly lastNameModule: LastNameModule;
-    
+
     // Street types with weighted probabilities
     private readonly streetTypes = [
         { value: 'Via', weight: 70 },      // Most common
@@ -61,14 +61,14 @@ export class AddressModule {
     private getWeightedStreetType(): string {
         const totalWeight = this.streetTypes.reduce((sum, type) => sum + type.weight, 0);
         let random = this.faker.number.float({ min: 0, max: totalWeight });
-        
+
         for (const streetType of this.streetTypes) {
             random -= streetType.weight;
             if (random <= 0) {
                 return streetType.value;
             }
         }
-        
+
         return 'Via'; // Fallback to most common
     }
 
@@ -105,8 +105,8 @@ export class AddressModule {
 
     completeAddress$(options?: { region?: string }): Observable<string> {
         return this.streetAddress$(options).pipe(
-            switchMap(streetAddr => 
-                (options?.region 
+            switchMap(streetAddr =>
+                (options?.region
                     ? this.placesModule.city$({ region: options.region })
                     : this.placesModule.randomCity$()
                 ).pipe(
@@ -115,7 +115,7 @@ export class AddressModule {
                         const includeApartmentDetails = this.faker.helpers.maybe(() => true, { probability: 0.05 });
                         const apartment = includeApartmentDetails ? this.generateApartmentDetails() : '';
                         const cap = city.postalCodes[0] || this.faker.string.numeric(5);
-                        
+
                         const baseAddress = [streetAddr, apartment].filter(Boolean).join(' ');
                         return `${baseAddress}, ${cap} ${city.name} (${city.provinceCode})`;
                     })
@@ -126,8 +126,8 @@ export class AddressModule {
 
     private buildingNumber(): string {
         const number = this.faker.number.int({ min: 1, max: 300 });
-        const suffix = this.faker.helpers.maybe(() => 
-            this.faker.helpers.arrayElement(['A', 'B', '/a', '/b', 'bis']), 
+        const suffix = this.faker.helpers.maybe(() =>
+            this.faker.helpers.arrayElement(['A', 'B', '/a', '/b', 'bis']),
             { probability: 0.05 } // Reduced probability for number suffixes
         );
         return suffix ? `${number}${suffix}` : `${number}`;
@@ -137,11 +137,11 @@ export class AddressModule {
         const buildings = ['A', 'B', 'C'];
         const floor = this.faker.number.int({ min: 0, max: 8 });
         const apartmentNumber = this.faker.number.int({ min: 1, max: 15 });
-        const internalLetter = this.faker.helpers.maybe(() => 
-            this.faker.helpers.arrayElement(['a', 'b']), 
+        const internalLetter = this.faker.helpers.maybe(() =>
+            this.faker.helpers.arrayElement(['a', 'b']),
             { probability: 0.2 }
         );
-        
+
         return `Scala ${this.faker.helpers.arrayElement(buildings)}, Piano ${floor}, Interno ${apartmentNumber}${internalLetter || ''}`;
     }
 

@@ -1,5 +1,5 @@
-import { WeightedItem } from "../types/types";
-import { ItalianCity, RawItalianCity } from "../types/city";
+import type { WeightedItem } from "../types/types";
+import type { ItalianCity, RawItalianCity } from "../types/city";
 
 interface CityAdapterOptions {
     includeCap?: boolean;

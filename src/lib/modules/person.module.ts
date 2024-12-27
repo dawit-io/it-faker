@@ -1,12 +1,12 @@
-import { Faker } from "@faker-js/faker";
+import type { Faker } from "@faker-js/faker";
 import { LastNameModule } from "./lastName.module";
-import { FirstNameOptions, FirstNameModule } from "./firstName.module";
-import { Gender, PersonOptions } from "../types/types";
+import { type FirstNameOptions, FirstNameModule } from "./firstName.module";
+import { Gender, type PersonOptions } from "../types/types";
 import { PlacesModule } from "./places.module";
-import { FiscalCodeModule, FiscalCodeOptions } from "./fiscalCode.module";
+import { FiscalCodeModule, type FiscalCodeOptions } from "./fiscalCode.module";
 import { AddressModule } from "./addresses.module";
-import { ItalianPersonDto } from "../types/dto/person.dto";
-import { Observable, of, forkJoin, lastValueFrom, combineLatest } from 'rxjs';
+import type { ItalianPersonDto } from "../types/dto/person.dto";
+import { type Observable, of, forkJoin, lastValueFrom, combineLatest } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
 export class PersonModule {
@@ -59,11 +59,26 @@ export class PersonModule {
         return this.placesModule.province$();
     }
 
-    birthDate$(): Observable<Date> {
-        return of(this.faker.date.between({
-            from: new Date('1950-01-01'),
-            to: new Date('2005-12-31')
-        }));
+    birthDate$(minAge?: number, maxAge?: number): Observable<Date> {
+        if (minAge !== undefined && maxAge !== undefined) {
+            const currentYear = new Date().getFullYear();
+            const fromYear = currentYear - maxAge;
+            const toYear = currentYear - minAge;
+
+            const fromDate = new Date(`${fromYear}-01-01`);
+            const toDate = new Date(`${toYear}-12-31`);
+
+            const currentDate = new Date();
+            if (toYear === currentYear) {
+                toDate.setFullYear(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+            }
+
+            return of(this.faker.date.between({
+                from: fromDate,
+                to: toDate
+            }));
+        }
+        return of(this.faker.date.past());
     }
 
     phone$(): Observable<string> {
@@ -100,20 +115,20 @@ export class PersonModule {
             min: options?.minAge || 18,
             max: options?.maxAge || 80
         });
-    
+
         // Build location options based on provided filters
         const locationOptions = options?.province ? { province: options.province } :
-                              options?.region ? { region: options.region } : 
-                              undefined;
-        
+            options?.region ? { region: options.region } :
+                undefined;
+
         const nameOptions = {
             region: options?.region,
             province: options?.province
         };
-    
+
         return this.placesModule.city$(locationOptions).pipe(
             // First stage: Generate basic personal data
-            mergeMap(birthCity => 
+            mergeMap(birthCity =>
                 combineLatest({
                     firstName: this.firstName$({ gender }),
                     lastName: this.lastName$(nameOptions),
@@ -122,7 +137,7 @@ export class PersonModule {
                 })
             ),
             // Second stage: Generate documents and contact details
-            mergeMap(({ firstName, lastName, prefix, birthPlace }) => 
+            mergeMap(({ firstName, lastName, prefix, birthPlace }) =>
                 combineLatest({
                     base: of({ firstName, lastName, prefix, birthPlace }),
                     fiscalCode: this.fiscalCodeModule.generate$({

@@ -1,4 +1,4 @@
-import { WeightedItem } from "../types/types";
+import type { WeightedItem } from "../types/types";
 
 export class WeightedRandomSelector<T> {
     private readonly SMALL_DATASET_THRESHOLD = 100;
@@ -9,7 +9,7 @@ export class WeightedRandomSelector<T> {
         weight: number;
         accumulatedWeight: number;
     }>;
-    private totalWeight: number = 0;
+    private totalWeight = 0;
 
     /**
      * Creates a WeightedRandomSelector that respects actual weights
@@ -69,7 +69,7 @@ export class WeightedRandomSelector<T> {
         }
 
         const randomWeight = Math.random() * this.totalWeight;
-        
+
         // Binary search to find element with correct cumulative weight
         return this.binarySearch(randomWeight);
     }
@@ -82,8 +82,8 @@ export class WeightedRandomSelector<T> {
             const mid = Math.floor((left + right) / 2);
             const item = this.items![mid];
 
-            if (mid === 0 || (this.items![mid - 1].accumulatedWeight <= targetWeight && 
-                            item.accumulatedWeight > targetWeight)) {
+            if (mid === 0 || (this.items![mid - 1].accumulatedWeight <= targetWeight &&
+                item.accumulatedWeight > targetWeight)) {
                 return item.value;
             }
 

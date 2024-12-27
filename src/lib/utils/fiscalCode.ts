@@ -3,7 +3,7 @@ import { Gender } from "../types/types";
 
 export class FiscalCodeGenerator {
   private static MONTH_CODES = ['A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T'];
-  
+
   private static ODD_CHARS: { [key: string]: number } = {
     '0': 1, '1': 0, '2': 5, '3': 7, '4': 9, '5': 13, '6': 15, '7': 17, '8': 19,
     '9': 21, 'A': 1, 'B': 0, 'C': 5, 'D': 7, 'E': 9, 'F': 13, 'G': 15, 'H': 17,
@@ -59,7 +59,7 @@ export class FiscalCodeGenerator {
     return year + month + day;
   }
 
-  private static calculateControlChar(code: string): string {
+  public static calculateControlChar(code: string): string {
     if (code.length !== 15) {
       throw new Error('Base code must be exactly 15 characters long');
     }

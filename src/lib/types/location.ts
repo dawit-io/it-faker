@@ -1,8 +1,8 @@
-import { ItalianCity } from "./city";
+import type { ItalianCity } from "./city";
 
-  
-  export interface ItalianLocation {
-    city: ItalianCity;
-    address: string;
-    zipCode: string;
-  }
+
+export interface ItalianLocation {
+  city: ItalianCity;
+  address: string;
+  zipCode: string;
+}
