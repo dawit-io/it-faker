@@ -3,7 +3,7 @@ import { LastNameModule } from "./lastName.module";
 import { type FirstNameOptions, FirstNameModule } from "./firstName.module";
 import { Gender, type PersonOptions } from "../types/types";
 import { PlacesModule } from "./places.module";
-import { FiscalCodeModule, type FiscalCodeOptions } from "./fiscalCode.module";
+import { type BirthPlace, FiscalCodeModule, type FiscalCodeOptions } from "./fiscalCode.module";
 import { AddressModule } from "./addresses.module";
 import type { ItalianPersonDto } from "../types/dto/person.dto";
 import { type Observable, of, forkJoin, lastValueFrom, combineLatest } from 'rxjs';
@@ -142,7 +142,7 @@ export class PersonModule {
                     base: of({ firstName, lastName, prefix, birthPlace }),
                     fiscalCode: this.fiscalCodeModule.generate$({
                         firstName, lastName, gender, birthDate,
-                        birthPlace
+                        birthPlace: { type: 'italian', city: birthPlace } as BirthPlace
                     }),
                     email: this.email$(firstName, lastName),
                     pec: this.pec$(firstName, lastName),
@@ -157,9 +157,9 @@ export class PersonModule {
                 gender,
                 birthDate,
                 birthPlace: {
-                    city: base.birthPlace.name,
-                    province: base.birthPlace.province.name,
-                    region: base.birthPlace.region.name
+                    city: base.birthPlace?.name ?? '',
+                    province: base.birthPlace?.province.name ?? '',
+                    region: base.birthPlace?.region.name ?? ''
                 },
                 fiscalCode,
                 contacts: {
@@ -167,7 +167,7 @@ export class PersonModule {
                     email,
                     pec
                 },
-                address
+                address,
             }))
         );
     }

@@ -1,4 +1,4 @@
-import type { ItalianCity } from "./city";
+import type { BirthPlace } from "../modules/fiscalCode.module";
 import type { Gender } from "./types";
 
 export interface ItalianPerson {
@@ -6,6 +6,6 @@ export interface ItalianPerson {
   lastName: string;
   gender: Gender;
   birthDate: Date;
-  birthPlace: ItalianCity;
+  birthPlace: BirthPlace;
   fiscalCode: string;
 }

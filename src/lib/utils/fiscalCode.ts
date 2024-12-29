@@ -1,6 +1,7 @@
-import { ItalianPerson } from "../types/person";
+import type { ItalianPerson } from "../types/person";
 import { Gender } from "../types/types";
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class FiscalCodeGenerator {
   private static MONTH_CODES = ['A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T'];
 
@@ -21,13 +22,13 @@ export class FiscalCodeGenerator {
   private static REMAINDER_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
   static generate(person: Omit<ItalianPerson, 'fiscalCode'>): string {
-    const surname = this.processSurname(person.lastName);
-    const name = this.processName(person.firstName);
-    const dateCode = this.processDate(person.birthDate, person.gender);
-    const cityCode = person.birthPlace.belfioreCode;
+    const surname = FiscalCodeGenerator.processSurname(person.lastName);
+    const name = FiscalCodeGenerator.processName(person.firstName);
+    const dateCode = FiscalCodeGenerator.processDate(person.birthDate, person.gender);
+    const belfioreCode = person.birthPlace.type === 'italian' ? person.birthPlace.city.belfioreCode : person.birthPlace.country.code;
 
-    const baseCode = surname + name + dateCode + cityCode;
-    const controlChar = this.calculateControlChar(baseCode);
+    const baseCode = surname + name + dateCode + belfioreCode;
+    const controlChar = FiscalCodeGenerator.calculateControlChar(baseCode);
 
     return baseCode + controlChar;
   }
@@ -51,7 +52,7 @@ export class FiscalCodeGenerator {
 
   private static processDate(date: Date, gender: Gender): string {
     const year = date.getFullYear().toString().slice(-2);
-    const month = this.MONTH_CODES[date.getMonth()];
+    const month = FiscalCodeGenerator.MONTH_CODES[date.getMonth()];
     let day = date.getDate().toString().padStart(2, '0');
     if (gender === Gender.Female) {
       day = (parseInt(day) + 40).toString();
@@ -69,7 +70,7 @@ export class FiscalCodeGenerator {
     // Process characters in odd positions (1-based index)
     for (let i = 0; i < code.length; i += 2) {
       const char = code[i];
-      const value = this.ODD_CHARS[char];
+      const value = FiscalCodeGenerator.ODD_CHARS[char];
       if (value === undefined) {
         throw new Error(`Invalid character in odd position: ${char}`);
       }
@@ -79,7 +80,7 @@ export class FiscalCodeGenerator {
     // Process characters in even positions (1-based index)
     for (let i = 1; i < code.length; i += 2) {
       const char = code[i];
-      const value = this.EVEN_CHARS[char];
+      const value = FiscalCodeGenerator.EVEN_CHARS[char];
       if (value === undefined) {
         throw new Error(`Invalid character in even position: ${char}`);
       }
@@ -88,6 +89,6 @@ export class FiscalCodeGenerator {
 
     // Calculate remainder and get corresponding letter
     const remainder = sum % 26;
-    return this.REMAINDER_CHARS.charAt(remainder);
+    return FiscalCodeGenerator.REMAINDER_CHARS.charAt(remainder);
   }
 }

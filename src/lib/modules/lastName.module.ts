@@ -1,7 +1,7 @@
-import { Faker } from "@faker-js/faker";
+import type { Faker } from "@faker-js/faker";
 import { NameUtils } from "../utils/nameUtils";
 import { LastNameSelector } from "../utils/lastNameSelector";
-import { Observable, lastValueFrom } from 'rxjs';
+import { type Observable, lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface LastNameOptions {

@@ -1,8 +1,8 @@
-import { Faker } from "@faker-js/faker";
+import type { Faker } from "@faker-js/faker";
 import { WeightedRandomSelector } from '../utils/weightedRandom';
-import { Gender, WeightedData } from "../types/types";
+import { Gender, type WeightedData } from "../types/types";
 import { NameUtils } from "../utils/nameUtils";
-import { Observable, from, BehaviorSubject, of, lastValueFrom } from 'rxjs';
+import { type Observable, from, BehaviorSubject, of, lastValueFrom } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 
 export interface FirstNameOptions {
@@ -22,7 +22,7 @@ export class FirstNameModule {
         maleNamesSelector: WeightedRandomSelector<string>;
     } | null>(null);
 
-    constructor(private readonly faker: Faker) {}
+    constructor(private readonly faker: Faker) { }
 
     private loadNameData(): Observable<void> {
         if (this.dataSubject.getValue()) {
@@ -60,7 +60,7 @@ export class FirstNameModule {
                     throw new Error('Name data not initialized');
                 }
 
-                const gender = options?.gender || 
+                const gender = options?.gender ||
                     this.faker.helpers.arrayElement([Gender.Male, Gender.Female]);
 
                 let name = gender === Gender.Male
@@ -68,7 +68,7 @@ export class FirstNameModule {
                     : data.femaleNamesSelector.select();
 
                 name = NameUtils.formatItalianName(name);
-                
+
                 if (options?.prefix) {
                     return of(this.getNameWithPrefix(name, gender));
                 }
