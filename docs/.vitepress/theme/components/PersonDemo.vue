@@ -52,7 +52,7 @@ generateTrigger$.pipe(
 
 const provinces = [
   'Roma', 'Milano', 'Napoli', 'Torino', 'Palermo', 
-  'Genova', 'Bologna', 'Firenze', 'Bari', 'Catania', 'Bolzano'
+  'Genova', 'Bologna', 'Firenze', 'Bari', 'Catania', 'Bolzano', 'Cagliari'
 ].sort()
 
 const filteredProvinces = computed(() => {
