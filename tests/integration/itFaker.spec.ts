@@ -5,6 +5,7 @@ import { PlacesModule } from '../../src/lib/modules/places.module';
 import { AddressModule } from '../../src/lib/modules/addresses.module';
 import { FiscalCodeModule } from '../../src/lib/modules/fiscalCode.module';
 import { LastNameModule } from '../../src/lib/modules/lastName.module';
+import { FirstNameModule } from '../../src/lib/modules/firstName.module';
 
 describe('ItFaker', () => {
     let itFaker: ItFaker;
@@ -74,8 +75,8 @@ describe('ItFaker', () => {
     });
 
     describe('itFirstName', () => {
-        it('should return an instance of LastNameModule', () => {
-            expect(itFaker.itFirstName).toBeInstanceOf(LastNameModule);
+        it('should return an instance of FirstNameModule', () => {
+            expect(itFaker.itFirstName).toBeInstanceOf(FirstNameModule);
         });
 
         it('should always return the same instance', () => {
