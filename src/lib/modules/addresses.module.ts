@@ -114,10 +114,10 @@ export class AddressModule {
                         // Only 5% chance to include apartment details
                         const includeApartmentDetails = this.faker.helpers.maybe(() => true, { probability: 0.05 });
                         const apartment = includeApartmentDetails ? this.generateApartmentDetails() : '';
-                        const cap = city.postalCodes[0] || this.faker.string.numeric(5);
+                        const cap = city?.postalCodes[0] || this.faker.string.numeric(5);
 
                         const baseAddress = [streetAddr, apartment].filter(Boolean).join(' ');
-                        return `${baseAddress}, ${cap} ${city.name} (${city.provinceCode})`;
+                        return `${baseAddress}, ${cap} ${city?.name} (${city?.provinceCode})`;
                     })
                 )
             )

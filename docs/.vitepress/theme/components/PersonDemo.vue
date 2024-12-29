@@ -84,7 +84,7 @@ async function handleProvinceBlur() {
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow-sm">
       <!-- Gender Selection -->
       <div class="space-y-2">
-        <label class="block text-sm font-medium text-gray-700">Genere</label>
+        <label class="block text-sm font-medium text-gray-700">Gender</label>
         <div class="flex space-x-4">
           <label class="relative flex items-center group">
             <input
@@ -97,7 +97,7 @@ async function handleProvinceBlur() {
               class="px-4 py-2 rounded-lg border-2 cursor-pointer transition-all duration-200 group-hover:border-blue-400"
               :class="[selectedGender === '' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600']"
             >
-              Casuale
+              Random
             </span>
           </label>
           <label class="relative flex items-center group">
@@ -111,7 +111,7 @@ async function handleProvinceBlur() {
               class="px-4 py-2 rounded-lg border-2 cursor-pointer transition-all duration-200 group-hover:border-blue-400"
               :class="[selectedGender === 'male' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600']"
             >
-              Uomo
+              Male
             </span>
           </label>
           <label class="relative flex items-center group">
@@ -125,7 +125,7 @@ async function handleProvinceBlur() {
               class="px-4 py-2 rounded-lg border-2 cursor-pointer transition-all duration-200 group-hover:border-blue-400"
               :class="[selectedGender === 'female' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600']"
             >
-              Donna
+              Female
             </span>
           </label>
         </div>
@@ -133,13 +133,13 @@ async function handleProvinceBlur() {
 
       <!-- Province Autocomplete -->
       <div class="space-y-2">
-        <label class="block text-sm font-medium text-gray-700">Provincia</label>
+        <label class="block text-sm font-medium text-gray-700">Province</label>
         <div class="relative">
           <input
             v-model="provinceSearch"
             type="text"
             class="input input-bordered w-full"
-            placeholder="Cerca provincia..."
+            placeholder="Search province..."
             @focus="showProvinceDropdown = true"
             @blur="handleProvinceBlur"
           >
@@ -162,7 +162,7 @@ async function handleProvinceBlur() {
 
       <!-- Age Range -->
       <div class="space-y-2">
-        <label class="block text-sm font-medium text-gray-700">Età (min-max)</label>
+        <label class="block text-sm font-medium text-gray-700">Age (min-max)</label>
         <div class="flex items-center space-x-4">
           <div class="relative flex-1">
             <input
@@ -173,7 +173,7 @@ async function handleProvinceBlur() {
               class="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
               placeholder="Min"
             >
-            <span class="absolute right-3 top-2 text-gray-400 text-sm">anni</span>
+            <span class="absolute right-3 top-2 text-gray-400 text-sm">years</span>
           </div>
           <span class="text-gray-400">-</span>
           <div class="relative flex-1">
@@ -185,14 +185,14 @@ async function handleProvinceBlur() {
               class="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
               placeholder="Max"
             >
-            <span class="absolute right-3 top-2 text-gray-400 text-sm">anni</span>
+            <span class="absolute right-3 top-2 text-gray-400 text-sm">years</span>
           </div>
         </div>
       </div>
 
       <!-- Title Toggle -->
       <div class="space-y-2">
-        <label class="block text-sm font-medium text-gray-700">Includi Titolo</label>
+        <label class="block text-sm font-medium text-gray-700">Include Title</label>
         <label class="relative inline-flex items-center cursor-pointer group">
           <input
             v-model="includeTitle"
@@ -203,7 +203,7 @@ async function handleProvinceBlur() {
             class="px-4 py-2 rounded-lg border-2 cursor-pointer transition-all duration-200 group-hover:border-blue-400"
             :class="[includeTitle ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600']"
           >
-            Includi titolo onorifico
+            Include honorific title
           </span>
         </label>
       </div>
@@ -222,7 +222,7 @@ async function handleProvinceBlur() {
         :disabled="isLoading"
         class="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors duration-200 font-medium flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <span>Rigenera</span>
+        <span>Regenerate</span>
       </button>
     </div>
   </div>

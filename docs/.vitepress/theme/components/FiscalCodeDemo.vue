@@ -104,7 +104,7 @@ onMounted(() => {
           </div>
           <div v-else class="bg-white rounded-lg border-2 border-gray-100">
             <div class="p-6 text-center">
-              <h3 class="text-lg font-medium text-gray-700 mb-2">Il tuo codice fiscale:</h3>
+              <h3 class="text-lg font-medium text-gray-700 mb-2">Your fiscal code:</h3>
               <p class="text-4xl font-bold tracking-wider text-blue-700 font-mono">
                 {{ generatedCode }}
               </p>
@@ -119,14 +119,14 @@ onMounted(() => {
           class="w-full px-6 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors duration-200 font-medium flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
         >
           <span v-if="isLoading" class="loading loading-spinner loading-sm"></span>
-          <span>Genera Codice Fiscale</span>
+          <span>Generate Fiscal Code</span>
         </button>
       </div>
         <!-- Form Inputs -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- First Name Input -->
           <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700">Nome</label>
+            <label class="block text-sm font-medium text-gray-700">First Name</label>
             <input
               v-model="firstName"
               type="text"
@@ -137,7 +137,7 @@ onMounted(() => {
 
           <!-- Last Name Input -->
           <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700">Cognome</label>
+            <label class="block text-sm font-medium text-gray-700">Last Name</label>
             <input
               v-model="lastName"
               type="text"
@@ -148,7 +148,7 @@ onMounted(() => {
 
           <!-- Gender Selection -->
           <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700">Genere</label>
+            <label class="block text-sm font-medium text-gray-700">Gender</label>
             <div class="flex space-x-4">
               <label class="relative flex items-center group">
                 <input
@@ -161,7 +161,7 @@ onMounted(() => {
                   class="px-4 py-2 rounded-lg border-2 cursor-pointer transition-all duration-200 group-hover:border-blue-400"
                   :class="[selectedGender === 'male' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600']"
                 >
-                  Uomo
+                  Male
                 </span>
               </label>
               <label class="relative flex items-center group">
@@ -175,7 +175,7 @@ onMounted(() => {
                   class="px-4 py-2 rounded-lg border-2 cursor-pointer transition-all duration-200 group-hover:border-blue-400"
                   :class="[selectedGender === 'female' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600']"
                 >
-                  Donna
+                  Female
                 </span>
               </label>
             </div>
@@ -183,7 +183,7 @@ onMounted(() => {
 
           <!-- Birth Date Input -->
           <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700">Data di nascita</label>
+            <label class="block text-sm font-medium text-gray-700">Date of Birth</label>
             <input
               v-model="birthDate"
               type="date"
@@ -194,14 +194,14 @@ onMounted(() => {
           <!-- Birth Place Autocomplete -->
           <div class="space-y-2 md:col-span-2">
             <label class="block text-sm font-medium text-gray-700">
-              Luogo di nascita
-              <span class="text-gray-500 text-xs">(Sono rappresentate solo le città più popolose)</span>
+              Place of Birth
+              <span class="text-gray-500 text-xs">(Only most populated cities are shown)</span>
             </label>
             <div class="relative">
               <input 
                 v-model="birthPlaceSearch"
                 type="text" 
-                placeholder="Cerca città o nazione..."
+                placeholder="Search city or country..."
                 class="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200"
                 @focus="showBirthPlaceDropdown = true"
                 @blur="showBirthPlaceDropdown = false"

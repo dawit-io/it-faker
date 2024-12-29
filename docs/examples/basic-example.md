@@ -228,3 +228,33 @@ async function safeDataGeneration() {
 ```
 
 These examples demonstrate the basic usage patterns for IT-Faker. For more advanced use cases and detailed information about each module, refer to the specific module documentation.
+
+## Command Line Interface
+
+IT-Faker can also be used directly from the command line:
+
+```bash
+# First Names
+npx it-faker firstName # Random first name
+npx it-faker firstName -g female # Female name
+npx it-faker firstName -g male -p -c 3 # 3 male names with titles
+
+# Last Names
+npx it-faker lastName # Random last name
+npx it-faker lastName -r Lombardia # Regional surname
+npx it-faker lastName -p Bolzano -c 5 # 5 surnames from Bolzano
+
+# Complete Persons
+npx it-faker person # Random person
+npx it-faker person -g female -r Toscana # Female from Toscana
+npx it-faker person -c 3 --with-address # 3 persons with addresses
+
+# Addresses
+npx it-faker address # Random address
+npx it-faker address -p Milano # Address in Milano
+npx it-faker address -r Lazio -c 4 # 4 addresses in Lazio
+
+# Fiscal Codes
+npx it-faker fiscal-code # Random fiscal code
+npx it-faker fiscal-code -c 5 # 5 fiscal codes
+

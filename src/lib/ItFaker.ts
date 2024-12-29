@@ -4,6 +4,7 @@ import { PlacesModule } from './modules/places.module';
 import { AddressModule } from './modules/addresses.module';
 import { FiscalCodeModule } from './modules/fiscalCode.module';
 import { LastNameModule } from './modules/lastName.module';
+import { FirstNameModule } from './modules/firstName.module';
 
 export class ItFaker extends Faker {
     private _itPerson?: PersonModule;
@@ -11,7 +12,7 @@ export class ItFaker extends Faker {
     private _itAddress?: AddressModule;
     private _itFiscalCode?: FiscalCodeModule;
     private _itLastName?: LastNameModule;
-    private _itFirstName?: LastNameModule;
+    private _itFirstName?: FirstNameModule;
 
     constructor() {
         super({ locale: [it] });
@@ -52,9 +53,9 @@ export class ItFaker extends Faker {
         return this._itLastName;
     }
 
-    get itFirstName(): LastNameModule {
+    get itFirstName(): FirstNameModule {
         if (!this._itFirstName) {
-            this._itFirstName = new LastNameModule(this);
+            this._itFirstName = new FirstNameModule(this);
         }
         return this._itFirstName;
     }
