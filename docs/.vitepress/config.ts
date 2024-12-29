@@ -1,9 +1,14 @@
+import { fa } from '@faker-js/faker'
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   title: "IT Faker",
   description: "IT-Faker: Italian Data Generator based on Faker.js",
-  ignoreDeadLinks: true, // this is temporary until we have all the pages
+  ignoreDeadLinks: true,
+  appearance: false,
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.ico' }],
+  ],
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },

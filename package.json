@@ -1,6 +1,6 @@
 {
 	"name": "@italia-tools/faker",
-	"version": "0.1.2-alpha.0",
+	"version": "0.1.2-alpha.1",
 	"description": "Italian-specific fake data generator based on Faker.js",
 	"type": "module",
 	"scripts": {
@@ -28,7 +28,23 @@
 		"italian",
 		"fake-data",
 		"testing",
-		"synthetic-data"
+		"synthetic-data",
+		"fiscal-code",
+		"codice-fiscale",
+		"italian-names",
+		"italian-cities",
+		"italian-data",
+		"mock-data",
+		"test-data",
+		"italy",
+		"italia",
+		"italian-faker",
+		"demographic-data",
+		"development",
+		"seed-data",
+		"cap",
+		"pec",
+		"italian-validation"
 	],
 	"repository": {
 		"type": "git",
