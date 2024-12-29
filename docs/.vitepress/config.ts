@@ -9,7 +9,7 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide/' },
       { text: 'Modules', link: '/modules/' },
-      { text: 'Examples', link: '/modules/' }
+      { text: 'Examples', link: '/examples/' }
     ],
 
     sidebar: [
@@ -24,19 +24,19 @@ export default defineConfig({
         text: 'Modules',
         items: [
           { text: 'Overview', link: '/modules/' },
-          { text: 'Person', link: '/in-progress' },
-          { text: 'Fiscal Code', link: '/in-progress' },
-          { text: 'Addresses', link: '/in-progress' },
-          { text: 'Names', link: '/in-progress' },
-          { text: 'Last Names', link: '/in-progress' },
-          { text: 'Places', link: '/in-progress' }
+          { text: 'Person', link: '/modules/person' },
+          { text: 'Fiscal Code', link: '/modules/fiscal-code' },
+          { text: 'First Names', link: '/modules/first-name' },
+          { text: 'Last Names', link: '/modules/last-name' },
+          { text: 'Places', link: '/modules/places' },
+          { text: 'Address', link: '/modules/address' },
         ]
       },
       {
         text: 'Examples',
         items: [
-          { text: 'Overview', link: '/guide/' },
-          { text: 'Basic Usage', link: '/guide/installation' }
+          { text: 'Overview', link: '/examples/' },
+          { text: 'Basic Usage', link: '/examples/basic-example' }
         ]
       }
     ],
