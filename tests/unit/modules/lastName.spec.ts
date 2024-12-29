@@ -21,7 +21,7 @@ describe('LastNameModule', () => {
         });
 
         it('should generate a last name for a specific region', async () => {
-            const options = { region: 'Lombardia' };
+            const options = { region: 'Sicilia' };
             const lastName = await lastNameModule.lastName(options);
             expect(lastName).toMatch(/^[a-zA-ZàèéìòóùÀÈÉÌÒÓÙçÇ' ]+$/);
         });

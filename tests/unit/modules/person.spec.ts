@@ -69,9 +69,11 @@ describe('PersonModule', () => {
                 gender: Gender.Male,
                 birthDate: new Date('1980-01-01'),
                 birthPlace: {
-                    name: 'Roma',
-                    province: { code: 'RM' },
-                    belfioreCode: 'H501'
+                    type: 'italian', city: {
+                        name: 'Roma',
+                        province: { code: 'RM' },
+                        belfioreCode: 'H501'
+                    } as ItalianCity
                 }
             } as FiscalCodeOptions;
             const fiscalCode = await personModule.fiscalCode(fiscalCodeOptions);
@@ -188,9 +190,11 @@ describe('PersonModule', () => {
                     gender: Gender.Male,
                     birthDate: new Date('1980-01-01'),
                     birthPlace: {
-                        name: 'Roma',
-                        province: { code: 'RM' },
-                        belfioreCode: 'H501'
+                        type: 'italian', city: {
+                            name: 'Roma',
+                            province: { code: 'RM' },
+                            belfioreCode: 'H501'
+                        } as ItalianCity
                     }
                 } as FiscalCodeOptions;
                 const fiscalCode$ = personModule.fiscalCode$(fiscalCodeOptions);
