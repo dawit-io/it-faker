@@ -41,7 +41,7 @@ await itFaker.itPerson.generatePerson()
     //   "fullName": "Marco Rossi",
     //   "firstName": "Marco",
     //   "lastName": "Rossi",
-    //   "gender": "makle",
+    //   "gender": "male",
     //   "birthDate": "1947-05-10T02:38:15.257Z",
     //   "birthPlace": {
     //     "city": "Milano",
