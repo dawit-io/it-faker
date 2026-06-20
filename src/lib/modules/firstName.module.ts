@@ -37,8 +37,8 @@ export class FirstNameModule {
                 const femaleFirstNames = femaleModule.default as WeightedData;
                 const maleFirstNames = maleModule.default as WeightedData;
 
-                const femaleNamesSelector = new WeightedRandomSelector(femaleFirstNames.items);
-                const maleNamesSelector = new WeightedRandomSelector(maleFirstNames.items);
+                const femaleNamesSelector = new WeightedRandomSelector(femaleFirstNames.items, this.faker);
+                const maleNamesSelector = new WeightedRandomSelector(maleFirstNames.items, this.faker);
 
                 this.dataSubject.next({
                     femaleNamesSelector,

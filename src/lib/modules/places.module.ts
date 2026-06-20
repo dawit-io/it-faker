@@ -26,7 +26,8 @@ export class PlacesModule {
             map(module => {
                 const citiesData = module.default as RawItalianCity[];
                 const citySelector = new WeightedRandomSelector(
-                    CityAdapter.toWeightedItems(citiesData)
+                    CityAdapter.toWeightedItems(citiesData),
+                    this.faker
                 );
 
                 this.dataSubject.next({

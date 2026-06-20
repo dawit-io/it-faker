@@ -12,6 +12,10 @@ describe('FirstNameModule', () => {
         faker = {
             helpers: {
                 arrayElement: vi.fn()
+            },
+            number: {
+                int: vi.fn().mockReturnValue(0),
+                float: vi.fn().mockReturnValue(0)
             }
         } as unknown as Faker
 

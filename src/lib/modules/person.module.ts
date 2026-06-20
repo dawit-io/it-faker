@@ -59,18 +59,17 @@ export class PersonModule {
         return this.placesModule.province$();
     }
 
-    birthDate$(minAge?: number, maxAge?: number): Observable<Date> {
+    birthDate$(minAge?: number, maxAge?: number, refDate: Date = new Date()): Observable<Date> {
         if (minAge !== undefined && maxAge !== undefined) {
-            const currentYear = new Date().getFullYear();
+            const currentYear = refDate.getFullYear();
             const fromYear = currentYear - maxAge;
             const toYear = currentYear - minAge;
 
             const fromDate = new Date(`${fromYear}-01-01`);
             const toDate = new Date(`${toYear}-12-31`);
 
-            const currentDate = new Date();
             if (toYear === currentYear) {
-                toDate.setFullYear(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+                toDate.setFullYear(refDate.getFullYear(), refDate.getMonth(), refDate.getDate());
             }
 
             return of(this.faker.date.between({

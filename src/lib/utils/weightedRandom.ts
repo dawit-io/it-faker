@@ -1,7 +1,9 @@
+import type { Faker } from '@faker-js/faker';
 import type { WeightedItem } from "../types/types";
 
 export class WeightedRandomSelector<T> {
     private readonly SMALL_DATASET_THRESHOLD = 100;
+    private readonly faker: Faker;
     private isSmallDataset: boolean;
     private fastAccessArray?: T[];
     private items?: Array<{
@@ -14,9 +16,12 @@ export class WeightedRandomSelector<T> {
     /**
      * Creates a WeightedRandomSelector that respects actual weights
      * @param items Array of items with weights
+     * @param faker Faker instance whose seeded PRNG drives every selection
      * @param isSorted boolean indicating if items are pre-sorted
      */
-    constructor(items: WeightedItem<T>[], isSorted: boolean = false) {
+    constructor(items: WeightedItem<T>[], faker: Faker, isSorted: boolean = false) {
+        this.faker = faker;
+
         if (items.length === 0) {
             throw new Error("Items array cannot be empty");
         }
@@ -65,10 +70,11 @@ export class WeightedRandomSelector<T> {
      */
     public select(): T {
         if (this.isSmallDataset && this.fastAccessArray) {
-            return this.fastAccessArray[Math.floor(Math.random() * this.fastAccessArray.length)];
+            const index = this.faker.number.int({ min: 0, max: this.fastAccessArray.length - 1 });
+            return this.fastAccessArray[index];
         }
 
-        const randomWeight = Math.random() * this.totalWeight;
+        const randomWeight = this.faker.number.float({ min: 0, max: this.totalWeight });
 
         // Binary search to find element with correct cumulative weight
         return this.binarySearch(randomWeight);

@@ -5,6 +5,8 @@ import { AddressModule } from './modules/addresses.module';
 import { FiscalCodeModule } from './modules/fiscalCode.module';
 import { LastNameModule } from './modules/lastName.module';
 import { FirstNameModule } from './modules/firstName.module';
+import { CompanyModule } from './modules/company.module';
+import { EmploymentModule } from './modules/employment.module';
 
 export class ItFaker extends Faker {
     private _itPerson?: PersonModule;
@@ -13,6 +15,8 @@ export class ItFaker extends Faker {
     private _itFiscalCode?: FiscalCodeModule;
     private _itLastName?: LastNameModule;
     private _itFirstName?: FirstNameModule;
+    private _itCompany?: CompanyModule;
+    private _itEmployment?: EmploymentModule;
 
     constructor() {
         super({ locale: [it] });
@@ -58,5 +62,19 @@ export class ItFaker extends Faker {
             this._itFirstName = new FirstNameModule(this);
         }
         return this._itFirstName;
+    }
+
+    get itCompany(): CompanyModule {
+        if (!this._itCompany) {
+            this._itCompany = new CompanyModule(this);
+        }
+        return this._itCompany;
+    }
+
+    get itEmployment(): EmploymentModule {
+        if (!this._itEmployment) {
+            this._itEmployment = new EmploymentModule(this);
+        }
+        return this._itEmployment;
     }
 }
